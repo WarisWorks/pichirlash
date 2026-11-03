@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { toBlob } from "html-to-image";
-import notoFontURL from "@fontsource/noto-naskh-arabic/files/noto-naskh-arabic-arabic-400-normal.woff2?url";
+import { exportFontCSS, forgetFontCSS } from "./imageExport";
 import { Download, ImageDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sticker } from "@/components/ui/sticker";
@@ -27,35 +27,6 @@ const valid = (v: unknown): v is Card =>
   typeof v.size === "number" &&
   v.size >= 24 &&
   v.size <= 40;
-const fontCSS = new Map<string, Promise<string>>();
-async function exportFonts(font: Card["font"]) {
-  let cached = fontCSS.get(font);
-  if (!cached) {
-    cached = fetch(
-      font === "UKIJ Qolyazma"
-        ? "/fonts/UKIJQolyazma-Regular.woff2"
-        : notoFontURL,
-    )
-      .then((response) => {
-        if (!response.ok) throw Error("font");
-        return response.blob();
-      })
-      .then(
-        (blob) =>
-          new Promise<string>((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () =>
-              resolve(
-                `@font-face{font-family:'${font}';src:url('${reader.result}') format('woff2');font-weight:400;font-style:normal}`,
-              );
-            reader.onerror = reject;
-            reader.readAsDataURL(blob);
-          }),
-      );
-    fontCSS.set(font, cached);
-  }
-  return cached;
-}
 export default function PostcardMaker({
   incoming,
   onReward,
@@ -138,7 +109,7 @@ export default function PostcardMaker({
     try {
       await document.fonts.load(`${card.size}px "${card.font}"`);
       // The chosen local font is embedded explicitly; no remote font stylesheet is needed for export.
-      const css = await exportFonts(card.font);
+      const css = await exportFontCSS(card.font);
       const blob = await toBlob(design.current, {
         width: 600,
         height: 750,
@@ -160,7 +131,7 @@ export default function PostcardMaker({
       setStatus(
         "رەسىم تەييارلاش مۇۋەپپەقىيەتلىك بولمىدى. قايتا سىناڭ؛ يېزىقلىرىڭىز يوقالمىدى.",
       );
-      fontCSS.delete(card.font);
+      forgetFontCSS(card.font);
     } finally {
       setBusy(false);
     }

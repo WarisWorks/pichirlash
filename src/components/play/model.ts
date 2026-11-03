@@ -145,6 +145,10 @@ export type Letter = {
   color: string;
   stamp: string;
   sealed: boolean;
+  design?: "ivory" | "botanical" | "midnight" | "atlas";
+  from?: string;
+  date?: string;
+  email?: string;
 };
 export function validLetters(value: unknown): value is Letter[] {
   return (
@@ -155,7 +159,14 @@ export function validLetters(value: unknown): value is Letter[] {
         ["id", "to", "title", "body", "color", "stamp"].every(
           (k) => typeof x[k] === "string",
         ) &&
-        typeof x.sealed === "boolean",
+        typeof x.sealed === "boolean" &&
+        (x.design === undefined ||
+          ["ivory", "botanical", "midnight", "atlas"].includes(
+            String(x.design),
+          )) &&
+        ["from", "date", "email"].every(
+          (k) => x[k] === undefined || typeof x[k] === "string",
+        ),
     )
   );
 }

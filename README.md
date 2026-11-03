@@ -25,7 +25,7 @@ The main navigation opens reading, the creative playground, the writing studio, 
 | Creative desk     | Drag notes, quotes, and stickers; use arrow keys or position sliders instead of dragging. Edit text, resize paper, change colors, pin reading quotes, and undo a deletion.                                                                                                         |
 | Poetry playground | Add Uyghur word tiles by clicking or dragging, reorder them with drag/drop or buttons, insert line breaks, save and reopen poems, and turn a poem into a postcard.                                                                                                                 |
 | Story trail       | An original branching Uyghur story with three endings, backtracking, restart, and a saved reading path.                                                                                                                                                                            |
-| Letter corner     | Write drafts, choose stationery and a stamp, seal a letter, animate its opening, reread it, and edit it again. Letters are never sent.                                                                                                                                             |
+| Letter corner     | Choose four classic stationery designs and five original Uyghur wording templates; personalize, seal, reopen, save, export PNG pages, and prepare sharing or an email draft.                                                                                                                                             |
 | Word garden       | Distinct completed activities add flowers. Repeating the same activity does not duplicate rewards. Watering is available once per local calendar day. The garden shows twelve flowers and continues counting later achievements.                                                   |
 | Postcard maker    | Customize text, paper, handwriting, and a sticker; export a 1200 × 1500 PNG with embedded local fonts. A real exported-image preview and download link support mobile saving. Long text is fitted down to 18px; export is blocked with a helpful message if it still will not fit. |
 
@@ -41,6 +41,14 @@ Additional features:
 - Responsive RTL layouts, keyboard controls, and reduced-motion support.
 - An icon-only footer for Instagram, X, YouTube, Idirak, and Ko-fi, with accessible link labels.
 
+## Classic letters
+
+The letter corner offers ivory, botanical, midnight-gold, and Silk Road stationery, with decorative borders, handwritten UKIJ Qolyazma text, a signature, date, and wax seal. Wording templates cover gratitude, friendship, family, a future self, and formal thanks. Applying a template asks before replacing existing text.
+
+The live preview and image export use the same paper layout. Each page exports at 1200 × 1698 pixels with the local font embedded. Long letters keep every character and paragraph break across up to twelve pages. Excessive blank lines or oversized headings/signatures show a clear error instead of silently losing text. The editor accepts up to 5,000 characters. Download the selected page, save each prepared image from its link, or prepare a ZIP with all pages and click its download link. Phones can also save images from the rendered gallery.
+
+Image sharing uses the device share sheet when the browser supports file sharing on a secure origin. Images are prepared first, then a second user action opens sharing. Otherwise, download the images and attach them in the chosen app. The email action opens a `mailto:` draft with an optional recipient, subject, and the full letter text. Images must be attached manually to email, and the user confirms sending in the mail app. Copying the letter also has a selectable-text fallback. There is no email server or automatic sending. Existing saved letters remain compatible and use ivory stationery when no design was previously saved.
+
 ## Browser storage
 
 Saved work and preferences live in versioned localStorage keys (`pichirlash-…-v1`); older notes and favorites retain their existing keys for compatibility. There is no cross-device synchronization. Clearing browser data removes saved creations. Storage errors are shown in the affected feature. The garden records activity labels and local dates only inside this browser.
@@ -49,7 +57,7 @@ Saved work and preferences live in versioned localStorage keys (`pichirlash-…-
 
 Edit `src/data/content.ts` for the original poems, stories, and learning prompts. The branching story and data validators are in `src/components/play/model.ts`. No third-party literary works are included.
 
-UKIJ Qolyazma Regular is self-hosted in WOFF2 format and used throughout the UI. Noto Naskh Arabic is bundled through Fontsource as a fallback and an optional postcard font. The postcard exporter embeds the chosen local font; it does not depend on a remote font service. Font notices are in `public/fonts/`.
+UKIJ Qolyazma Regular is self-hosted in WOFF2 format and used throughout the UI. Noto Naskh Arabic is bundled through Fontsource as a fallback and an optional postcard font. The postcard and letter exporters embed the chosen local font; it does not depend on a remote font service. Font notices are in `public/fonts/`.
 
 ## Looseleaf registry
 
@@ -65,6 +73,6 @@ Looseleaf artwork and drawing components are by Kevin T. Ngo and contributors un
 
 ## Verification
 
-`npm test` checks reward idempotency, calendar-day watering, desk geometry, word reordering, storage validation, and every reachable story ending. The production build also runs TypeScript checks.
+`npm test` checks reward idempotency, calendar-day watering, desk geometry, word reordering, storage validation, every reachable story ending, backward-compatible letter storage, Unicode-preserving letter pagination, and encoded email-draft content. The production build also runs TypeScript checks.
 
 Browser QA covered desk dragging and keyboard movement, poetry saving/reordering and postcard handoff, real PNG downloads and exported-image rendering, sealing/opening letters, story completion, garden rewards/watering, focused reading and quote pinning, theme switching, optional sounds, reload persistence, and phone-width desk/garden layouts. The registry's embedded textures and full artwork collections still create large shared JavaScript chunks; the six creative feature screens are loaded on demand.
