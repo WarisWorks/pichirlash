@@ -41,3 +41,11 @@ Looseleaf artwork and drawing components are by Kevin T. Ngo under the MIT licen
 ## Content
 
 Edit `src/data/content.ts` to change the original Uyghur poems, stories, and learning prompts. Edit footer links in `src/App.tsx`. No third-party literary works are included.
+
+## Frontend demo studio
+
+The top navigation switches between reading, a writing studio, and the art library. The studio supports creating and editing poetry, stories and learning posts, drafts, demo publication, deletion, paper colors and a live preview. Drafts are excluded from the reading feed. Changes stay in `pichirlash-library-v1` in localStorage; demo publication never sends content to a server.
+
+The art library exposes all 333 installed assets: 96 stickers, 48 doodles, 15 mascot poses, 14 scenes and 160 icons. It has category filters and pagination; selecting artwork opens a decorated post in the studio. The icon-only social footer is preserved.
+
+Validation: production TypeScript/build passed; browser checks covered gallery selection, creating a decorated post, editing it, and saving it as a draft. Accounts and shared database storage are intentionally deferred.

@@ -23,6 +23,11 @@ import { Sticker } from "@/components/ui/sticker";
 import { InkProvider } from "@/lib/ink/react";
 import { entries, labels } from "./data/content";
 import type { Entry } from "./data/content";
+import Studio from "./components/demo/Studio";
+import type { DemoEntry } from "./components/demo/Studio";
+import ArtLibrary, { Art } from "./components/demo/ArtLibrary";
+import type { Decoration } from "./components/demo/ArtLibrary";
+import "./demo.css";
 import "./App.css";
 type Note = { id: string; title: string; body: string; color: string };
 type Tab = "all" | "poem" | "story" | "school" | "notes" | "saved";
@@ -43,6 +48,33 @@ function readStored<T>(key: string, fallback: T): T {
   }
 }
 function App() {
+  const [view, setView] = useState<"read" | "studio" | "art">("read");
+  const [decoration, setDecoration] = useState<Decoration>();
+  const [library, setLibrary] = useState<DemoEntry[]>(() => {
+    const stored = readStored<unknown>("pichirlash-library-v1", null);
+    return Array.isArray(stored) &&
+      stored.every(
+        (x) =>
+          x &&
+          typeof x.id === "string" &&
+          typeof x.title === "string" &&
+          typeof x.body === "string" &&
+          ["poem", "story", "school"].includes(x.type),
+      )
+      ? stored
+      : entries;
+  });
+  const [libraryError, setLibraryError] = useState(false);
+  const updateLibrary = (items: DemoEntry[]) => {
+    setLibrary(items);
+    try {
+      localStorage.setItem("pichirlash-library-v1", JSON.stringify(items));
+      setLibraryError(false);
+    } catch {
+      setLibraryError(true);
+    }
+  };
+
   const [tab, setTab] = useState<Tab>("all"),
     [query, setQuery] = useState(""),
     [active, setActive] = useState<Entry | null>(null);
@@ -93,13 +125,15 @@ function App() {
       body: "",
       color: "yellow",
     });
-  const filtered = entries.filter(
-    (e) =>
-      (tab === "all" ||
-        (tab === "saved" && saved.includes(e.id)) ||
-        e.type === tab) &&
-      `${e.title} ${e.body}`.includes(query.trim()),
-  );
+  const filtered = library
+    .filter((e) => !e.draft)
+    .filter(
+      (e) =>
+        (tab === "all" ||
+          (tab === "saved" && saved.includes(e.id)) ||
+          e.type === tab) &&
+        `${e.title} ${e.body}`.includes(query.trim()),
+    );
   const close = () => {
     setActive(null);
     setEditing(null);
@@ -123,6 +157,7 @@ function App() {
             href="#"
             aria-label="پىچىرلاش باش بەت"
             onClick={() => {
+              setView("read");
               setTab("all");
               setQuery("");
             }}
@@ -138,6 +173,7 @@ function App() {
           <button
             className="header-heart"
             onClick={() => {
+              setView("read");
               setTab("saved");
               document
                 .getElementById("notebook")
@@ -149,243 +185,302 @@ function App() {
             <span>{saved.length.toLocaleString("ar")}</span>
           </button>
         </header>
+        <nav className="demo-nav" aria-label="باش يولباشچى">
+          {(
+            [
+              { id: "read", label: "ئوقۇش", icon: BookOpen },
+              { id: "studio", label: "يېزىقچىلىق بۇلۇڭى", icon: NotebookPen },
+              { id: "art", label: "سەنئەت ساندۇقى", icon: Sparkles },
+            ] as const
+          ).map((item) => (
+            <button
+              key={item.id}
+              aria-pressed={view === item.id}
+              onClick={() => {
+                setView(item.id);
+                setDecoration(undefined);
+              }}
+            >
+              <item.icon size={18} />
+              {item.label}
+            </button>
+          ))}
+          <span>سىناق نۇسخىسى</span>
+        </nav>
         <main>
-          <section className="hero">
-            <div className="hero-copy">
-              <span className="eyebrow">
-                <span /> سۆزلەرگە تولغان كىچىك دۇنيا
-              </span>
-              <h1>
-                بەزى سۆزلەرنى
-                <br />
-                <span className="highlight">ئاستا</span> ئېيتقۇڭ كېلىدۇ
-                <span className="period">.</span>
-              </h1>
-              <p>
-                بىر پارچە شېئىر، بىر تاتلىق ھېكايە، بىر كىچىك ئوي…
-                <br />
-                بۇ يەردە ھەر بىر سۆزگە، ھەر بىر ئارزۇغا ئورۇن بار.
-              </p>
-              <div className="hero-actions">
-                <Button
-                  onClick={() =>
-                    document
-                      .getElementById("notebook")
-                      ?.scrollIntoView({ behavior: "smooth" })
-                  }
-                >
-                  ۋاراقلاپ باقايلى <ArrowLeft size={18} />
-                </Button>
-                <button className="text-button" onClick={newNote}>
-                  <Plus size={18} /> بىر خاتىرە يازاي
-                </button>
-              </div>
-              <div className="little-note">
-                <Heart size={14} /> ئازراق ئوقۇش، ئازراق يېزىش، كۆپرەك ھېس
-                قىلىش.
-              </div>
-            </div>
-            <div className="hero-art" aria-label="رەڭلىك قەغەزلەر ۋە گۈللەر">
-              <div className="orbit orbit-one" />
-              <div className="orbit orbit-two" />
-              <div className="art-spark">✧</div>
-              <div className="back-sheet" />
-              <div className="hero-sheet">
-                <span className="washi" />
-                <span className="sheet-date">بۈگۈنكى كىچىك ئەسلىمە</span>
-                <Heart className="sheet-heart" size={30} />
-                <blockquote>
-                  «ئارزۇلىرىڭىز كىچىك
+          {libraryError && (
+            <p role="alert" className="storage-warning">
+              يازما ساقلانمىدى. توركۆرگۈچ ساقلاش بوشلۇقىنى تەكشۈرۈڭ.
+            </p>
+          )}
+          {view === "studio" && (
+            <Studio
+              key={
+                decoration ? `${decoration.kind}-${decoration.name}` : "studio"
+              }
+              items={library}
+              onChange={updateLibrary}
+              onRead={setActive}
+              decoration={decoration}
+              onDone={() => setDecoration(undefined)}
+            />
+          )}
+          {view === "art" && (
+            <ArtLibrary
+              onChoose={(art) => {
+                setDecoration(art);
+                setView("studio");
+              }}
+            />
+          )}
+          <div hidden={view !== "read"}>
+            <section className="hero">
+              <div className="hero-copy">
+                <span className="eyebrow">
+                  <span /> سۆزلەرگە تولغان كىچىك دۇنيا
+                </span>
+                <h1>
+                  بەزى سۆزلەرنى
                   <br />
-                  بولسىمۇ، ئۇلارنى
+                  <span className="highlight">ئاستا</span> ئېيتقۇڭ كېلىدۇ
+                  <span className="period">.</span>
+                </h1>
+                <p>
+                  بىر پارچە شېئىر، بىر تاتلىق ھېكايە، بىر كىچىك ئوي…
                   <br />
-                  <em>مېھىر بىلەن</em> ئاسراڭ.»
-                </blockquote>
-                <span className="sheet-sign">— پىچىرلاشتىن سىزگە</span>
-                <span className="sheet-lines" />
-              </div>
-              <div className="sticker-flower">
-                <Sticker name="sunflower" size={108} />
-              </div>
-              <div className="sticker-star">
-                <Sticker name="comet" size={64} />
-              </div>
-              <div className="tiny-card">
-                <span>بىر كۈن، بىر يېڭى بەت</span>
-                <Feather size={21} />
-              </div>
-              <span className="art-dots">···</span>
-            </div>
-          </section>
-          <section id="notebook" className="notebook">
-            <div className="section-heading">
-              <div>
-                <span className="eyebrow">كۆڭۈل دەپتىرى</span>
-                <h2>
-                  قايسى بەتنى ئاچىمىز؟ <span>✿</span>
-                </h2>
-              </div>
-              <label className="search">
-                <Search size={18} />
-                <input
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="بىر سۆز ئىزدەڭ…"
-                  aria-label="مەزمۇن ئىزدەش"
-                />
-                {query && (
-                  <button
-                    onClick={() => setQuery("")}
-                    aria-label="ئىزدەشنى تازىلاش"
+                  بۇ يەردە ھەر بىر سۆزگە، ھەر بىر ئارزۇغا ئورۇن بار.
+                </p>
+                <div className="hero-actions">
+                  <Button
+                    onClick={() =>
+                      document
+                        .getElementById("notebook")
+                        ?.scrollIntoView({ behavior: "smooth" })
+                    }
                   >
-                    <X size={16} />
-                  </button>
-                )}
-              </label>
-            </div>
-            <div className="tabs" role="group" aria-label="مەزمۇن تۈرلىرى">
-              {tabs.map((t) => (
-                <button
-                  key={t.id}
-                  className={tab === t.id ? "tab selected" : "tab"}
-                  aria-pressed={tab === t.id}
-                  onClick={() => setTab(t.id)}
-                >
-                  <t.icon size={17} />
-                  {t.label}
-                  {t.id === "notes" && notes.length > 0 && (
-                    <small>{notes.length}</small>
-                  )}
-                </button>
-              ))}
-            </div>
-            {storageError && (
-              <p role="alert" className="storage-warning">
-                خاتىرىلەرنى بۇ توركۆرگۈچتە ساقلىغىلى بولمىدى. يېزىقلىرىڭىزنى
-                كۆچۈرۈپ ساقلىۋېلىڭ.
-              </p>
-            )}
-            {tab === "notes" ? (
-              <>
-                <div className="notes-intro">
-                  <p>
-                    بۇ بەت پەقەت سىزنىڭ. خاتىرىلىرىڭىز مۇشۇ توركۆرگۈچتە
-                    ساقلىنىدۇ.
-                  </p>
-                  <Button onClick={newNote}>
-                    <Plus size={18} /> يېڭى خاتىرە
+                    ۋاراقلاپ باقايلى <ArrowLeft size={18} />
                   </Button>
+                  <button className="text-button" onClick={newNote}>
+                    <Plus size={18} /> بىر خاتىرە يازاي
+                  </button>
                 </div>
-                <div className="cards">
-                  {notes
-                    .filter((n) =>
-                      `${n.title} ${n.body}`.includes(query.trim()),
-                    )
-                    .map((n) => (
-                      <article className={`note-card ${n.color}`} key={n.id}>
-                        <span className="card-tape" />
-                        <NotebookPen size={23} />
-                        <button
-                          className="card-open"
-                          onClick={() => setEditing(n)}
-                        >
-                          <h3>{n.title}</h3>
-                          <p>{n.body.slice(0, 125)}</p>
-                        </button>
-                        <div className="card-bottom">
-                          <span>شەخسىي خاتىرە</span>
-                          <button
-                            aria-label={`${n.title} — ئۆچۈرۈش`}
-                            onClick={() => {
-                              if (confirm("بۇ خاتىرىنى ئۆچۈرەمسىز؟"))
-                                setNotes((v) => v.filter((x) => x.id !== n.id));
-                            }}
-                          >
-                            <Trash2 size={18} />
-                          </button>
-                        </div>
-                      </article>
-                    ))}
-                  {!notes.length && (
-                    <button className="add-card" onClick={newNote}>
-                      <Plus size={30} />
-                      <h3>تۇنجى بېتىڭىزنى ئېچىڭ</h3>
-                      <p>بۈگۈنكى ئويلىرىڭىزنى يېزىپ قويۇڭ.</p>
+                <div className="little-note">
+                  <Heart size={14} /> ئازراق ئوقۇش، ئازراق يېزىش، كۆپرەك ھېس
+                  قىلىش.
+                </div>
+              </div>
+              <div className="hero-art" aria-label="رەڭلىك قەغەزلەر ۋە گۈللەر">
+                <div className="orbit orbit-one" />
+                <div className="orbit orbit-two" />
+                <div className="art-spark">✧</div>
+                <div className="back-sheet" />
+                <div className="hero-sheet">
+                  <span className="washi" />
+                  <span className="sheet-date">بۈگۈنكى كىچىك ئەسلىمە</span>
+                  <Heart className="sheet-heart" size={30} />
+                  <blockquote>
+                    «ئارزۇلىرىڭىز كىچىك
+                    <br />
+                    بولسىمۇ، ئۇلارنى
+                    <br />
+                    <em>مېھىر بىلەن</em> ئاسراڭ.»
+                  </blockquote>
+                  <span className="sheet-sign">— پىچىرلاشتىن سىزگە</span>
+                  <span className="sheet-lines" />
+                </div>
+                <div className="sticker-flower">
+                  <Sticker name="sunflower" size={108} />
+                </div>
+                <div className="sticker-star">
+                  <Sticker name="comet" size={64} />
+                </div>
+                <div className="tiny-card">
+                  <span>بىر كۈن، بىر يېڭى بەت</span>
+                  <Feather size={21} />
+                </div>
+                <span className="art-dots">···</span>
+              </div>
+            </section>
+            <section id="notebook" className="notebook">
+              <div className="section-heading">
+                <div>
+                  <span className="eyebrow">كۆڭۈل دەپتىرى</span>
+                  <h2>
+                    قايسى بەتنى ئاچىمىز؟ <span>✿</span>
+                  </h2>
+                </div>
+                <label className="search">
+                  <Search size={18} />
+                  <input
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="بىر سۆز ئىزدەڭ…"
+                    aria-label="مەزمۇن ئىزدەش"
+                  />
+                  {query && (
+                    <button
+                      onClick={() => setQuery("")}
+                      aria-label="ئىزدەشنى تازىلاش"
+                    >
+                      <X size={16} />
                     </button>
                   )}
-                </div>
-              </>
-            ) : (
-              <div className="cards">
-                {filtered.map((e, i) => (
-                  <article className={`note-card ${e.color}`} key={e.id}>
-                    <span className="card-tape" />
-                    <div className="card-top">
-                      <span className="category">
-                        {e.type === "poem" ? (
-                          <Feather size={16} />
-                        ) : e.type === "story" ? (
-                          <BookOpen size={16} />
-                        ) : (
-                          <GraduationCap size={16} />
-                        )}{" "}
-                        {labels[e.type]}
-                      </span>
-                      <span className="entry-number">0{i + 1}</span>
-                    </div>
-                    <button className="card-open" onClick={() => setActive(e)}>
-                      <h3>{e.title}</h3>
-                      <p>{e.excerpt}</p>
-                    </button>
-                    <div className="card-bottom">
+                </label>
+              </div>
+              <div className="tabs" role="group" aria-label="مەزمۇن تۈرلىرى">
+                {tabs.map((t) => (
+                  <button
+                    key={t.id}
+                    className={tab === t.id ? "tab selected" : "tab"}
+                    aria-pressed={tab === t.id}
+                    onClick={() => setTab(t.id)}
+                  >
+                    <t.icon size={17} />
+                    {t.label}
+                    {t.id === "notes" && notes.length > 0 && (
+                      <small>{notes.length}</small>
+                    )}
+                  </button>
+                ))}
+              </div>
+              {storageError && (
+                <p role="alert" className="storage-warning">
+                  خاتىرىلەرنى بۇ توركۆرگۈچتە ساقلىغىلى بولمىدى. يېزىقلىرىڭىزنى
+                  كۆچۈرۈپ ساقلىۋېلىڭ.
+                </p>
+              )}
+              {tab === "notes" ? (
+                <>
+                  <div className="notes-intro">
+                    <p>
+                      بۇ بەت پەقەت سىزنىڭ. خاتىرىلىرىڭىز مۇشۇ توركۆرگۈچتە
+                      ساقلىنىدۇ.
+                    </p>
+                    <Button onClick={newNote}>
+                      <Plus size={18} /> يېڭى خاتىرە
+                    </Button>
+                  </div>
+                  <div className="cards">
+                    {notes
+                      .filter((n) =>
+                        `${n.title} ${n.body}`.includes(query.trim()),
+                      )
+                      .map((n) => (
+                        <article className={`note-card ${n.color}`} key={n.id}>
+                          <span className="card-tape" />
+                          <NotebookPen size={23} />
+                          <button
+                            className="card-open"
+                            onClick={() => setEditing(n)}
+                          >
+                            <h3>{n.title}</h3>
+                            <p>{n.body.slice(0, 125)}</p>
+                          </button>
+                          <div className="card-bottom">
+                            <span>شەخسىي خاتىرە</span>
+                            <button
+                              aria-label={`${n.title} — ئۆچۈرۈش`}
+                              onClick={() => {
+                                if (confirm("بۇ خاتىرىنى ئۆچۈرەمسىز؟"))
+                                  setNotes((v) =>
+                                    v.filter((x) => x.id !== n.id),
+                                  );
+                              }}
+                            >
+                              <Trash2 size={18} />
+                            </button>
+                          </div>
+                        </article>
+                      ))}
+                    {!notes.length && (
+                      <button className="add-card" onClick={newNote}>
+                        <Plus size={30} />
+                        <h3>تۇنجى بېتىڭىزنى ئېچىڭ</h3>
+                        <p>بۈگۈنكى ئويلىرىڭىزنى يېزىپ قويۇڭ.</p>
+                      </button>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div className="cards">
+                  {filtered.map((e, i) => (
+                    <article className={`note-card ${e.color}`} key={e.id}>
+                      <span className="card-tape" />
+                      <div className="card-top">
+                        <span className="category">
+                          {e.type === "poem" ? (
+                            <Feather size={16} />
+                          ) : e.type === "story" ? (
+                            <BookOpen size={16} />
+                          ) : (
+                            <GraduationCap size={16} />
+                          )}{" "}
+                          {labels[e.type]}
+                        </span>
+                        <span className="entry-number">
+                          {(i + 1).toLocaleString("ar")}
+                        </span>
+                      </div>
                       <button
-                        className="read-link"
+                        className="card-open"
                         onClick={() => setActive(e)}
                       >
-                        داۋامىنى ئوقۇش <ArrowLeft size={16} />
+                        {e.art && <Art art={e.art} size={54} />}
+                        <h3>{e.title}</h3>
+                        <p>{e.excerpt}</p>
                       </button>
-                      <button
-                        aria-label={`${e.title} — ساقلاش`}
-                        aria-pressed={saved.includes(e.id)}
-                        onClick={() => toggleSave(e.id)}
-                      >
-                        <Heart
-                          size={19}
-                          fill={saved.includes(e.id) ? "currentColor" : "none"}
-                        />
-                      </button>
+                      <div className="card-bottom">
+                        <button
+                          className="read-link"
+                          onClick={() => setActive(e)}
+                        >
+                          داۋامىنى ئوقۇش <ArrowLeft size={16} />
+                        </button>
+                        <button
+                          aria-label={`${e.title} — ساقلاش`}
+                          aria-pressed={saved.includes(e.id)}
+                          onClick={() => toggleSave(e.id)}
+                        >
+                          <Heart
+                            size={19}
+                            fill={
+                              saved.includes(e.id) ? "currentColor" : "none"
+                            }
+                          />
+                        </button>
+                      </div>
+                    </article>
+                  ))}
+                  {!filtered.length && (
+                    <div className="empty">
+                      <Bookmark size={30} />
+                      <h3>
+                        {tab === "saved"
+                          ? "ساقلىغان بەتلىرىڭىز مۇشۇ يەردە كۆرۈنىدۇ"
+                          : "ماس كېلىدىغان مەزمۇن تېپىلمىدى"}
+                      </h3>
+                      <p>
+                        {tab === "saved"
+                          ? "ياقتۇرغان يازمىڭىزنىڭ يۈرەك بەلگىسىنى بېسىڭ."
+                          : "باشقا بىر سۆز بىلەن ئىزدەپ بېقىڭ."}
+                      </p>
                     </div>
-                  </article>
-                ))}
-                {!filtered.length && (
-                  <div className="empty">
-                    <Bookmark size={30} />
-                    <h3>
-                      {tab === "saved"
-                        ? "ساقلىغان بەتلىرىڭىز مۇشۇ يەردە كۆرۈنىدۇ"
-                        : "ماس كېلىدىغان مەزمۇن تېپىلمىدى"}
-                    </h3>
-                    <p>
-                      {tab === "saved"
-                        ? "ياقتۇرغان يازمىڭىزنىڭ يۈرەك بەلگىسىنى بېسىڭ."
-                        : "باشقا بىر سۆز بىلەن ئىزدەپ بېقىڭ."}
-                    </p>
-                  </div>
-                )}
-              </div>
-            )}
-          </section>
-          <aside className="closing">
-            <span className="closing-star">✳</span>
-            <p>
-              ھەر بىر ئادەمنىڭ كۆڭلىدە بىر كىتاب بار.
-              <br />
-              <strong>سىزنىڭكى قايسى سۆز بىلەن باشلىنىدۇ؟</strong>
-            </p>
-            <button onClick={newNote} aria-label="خاتىرە يېزىش">
-              <NotebookPen size={26} />
-            </button>
-          </aside>
+                  )}
+                </div>
+              )}
+            </section>
+            <aside className="closing">
+              <span className="closing-star">✳</span>
+              <p>
+                ھەر بىر ئادەمنىڭ كۆڭلىدە بىر كىتاب بار.
+                <br />
+                <strong>سىزنىڭكى قايسى سۆز بىلەن باشلىنىدۇ؟</strong>
+              </p>
+              <button onClick={newNote} aria-label="خاتىرە يېزىش">
+                <NotebookPen size={26} />
+              </button>
+            </aside>
+          </div>
         </main>
         <footer aria-label="ئىجتىمائىي ئۇلىنىشلار">
           {[
@@ -437,6 +532,9 @@ function App() {
                 <span className="eyebrow">
                   {labels[active.type]} · {active.time}
                 </span>
+                {(active as DemoEntry).art && (
+                  <Art art={(active as DemoEntry).art!} size={90} />
+                )}
                 <h2>{active.title}</h2>
                 <div className="reading-body">{active.body}</div>
                 <Button variant="outline" onClick={() => toggleSave(active.id)}>
