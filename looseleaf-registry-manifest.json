@@ -1,0 +1,37 @@
+{
+  "source": "https://kevintngo.github.io/looseleaf/r/",
+  "items": [
+    "button",
+    "dialog",
+    "doodle",
+    "font-ibm-plex-mono",
+    "font-kevin-sans",
+    "ink",
+    "ink",
+    "ink-art",
+    "ink-doodles",
+    "ink-doodles",
+    "ink-grain-textures",
+    "ink-icons",
+    "ink-mascots",
+    "ink-paper",
+    "ink-paper-textures",
+    "ink-props",
+    "ink-recipes",
+    "ink-scenes",
+    "ink-stickers",
+    "looseleaf-theme",
+    "looseleaf-theme",
+    "mascot",
+    "paper",
+    "paper",
+    "sticker",
+    "tape",
+    "tape"
+  ],
+  "dependencies": [
+    "@fontsource/ibm-plex-mono",
+    "class-variance-authority",
+    "radix-ui"
+  ]
+}

@@ -1,0 +1,68 @@
+@import "tailwindcss";
+@import "./looseleaf-theme.css";
+@import "./looseleaf-tokens.css";
+@import "@fontsource/noto-naskh-arabic/arabic-400.css";
+@import "@fontsource/noto-naskh-arabic/arabic-500.css";
+@import "@fontsource/noto-naskh-arabic/arabic-600.css";
+@import "@fontsource/noto-naskh-arabic/arabic-700.css";
+@theme inline {
+  --font-hand: "Noto Naskh Arabic", serif;
+  --font-script: "Noto Naskh Arabic", serif;
+  --font-type: "Noto Naskh Arabic", serif;
+}
+:root {
+  font-family: "Noto Naskh Arabic", serif;
+  color: #353e34;
+  background: #f7f5ed;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --background: #f7f5ed;
+  --ll-marker: #617453;
+  --primary: #617453;
+  --primary-foreground: #fffdf6;
+  --ll-ink: #353e34;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+input,
+textarea {
+  font: inherit;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: default;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button:not([data-slot]) {
+  color: inherit;
+}
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #b3684e;
+  outline-offset: 5px;
+}
+button:not([data-slot]) {
+  border: 0;
+}
+::selection {
+  background: #eddda5;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 25px;
+}
