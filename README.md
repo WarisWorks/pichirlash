@@ -1,57 +1,70 @@
 # پىچىرلاش · Pichirlash
 
-A small, warm Uyghur notebook: original poems, short stories, learning prompts, favorites, and private notes. Built with React 19, TypeScript, Vite, Tailwind CSS 4, and real Looseleaf registry components and illustration assets.
+A cozy Uyghur reading and creative playground. React 19, TypeScript, Vite, Tailwind CSS 4, Lucide, and real Looseleaf registry components and artwork. The entire experience is a frontend demo; no accounts, server, or environment variables are required.
 
-## Run
+## Run and verify
+
+Use Node.js 24 and npm:
 
 ```sh
 npm ci
 npm run dev
-```
-
-```sh
+npm test
 npm run build
 npm run preview
 ```
 
-Deploy as a Vite static project: build command `npm run build`, output directory `dist`. No environment variables or backend are required. Fonts are bundled locally through Fontsource. The upstream drawing engine may load its optional Kevin Sans stylesheet; Uyghur text uses Noto Naskh Arabic.
+Static deployment: build command `npm run build`, output directory `dist`.
 
-## Features
+## Explore
 
-- Uyghur Arabic script, right-to-left layout, responsive desktop and mobile design.
-- Six original pieces organized by poetry, stories, and learning.
-- Search, full reading dialogs, and persistent favorites.
-- Create, edit, and delete private notes with five paper colors.
-- Notes and favorites stay in this browser's localStorage; they do not sync across devices. Clearing browser data removes them.
-- Icon-only Lucide footer links with accessible names for Instagram, X, YouTube, Idirak, and Ko-fi.
-- Keyboard-friendly controls, native modal focus handling, and reduced-motion support.
+The main navigation opens reading, the creative playground, the writing studio, and the art library. The creative playground has six sections:
+
+| Section           | Behavior                                                                                                                                                                                                                                                                           |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Creative desk     | Drag notes, quotes, and stickers; use arrow keys or position sliders instead of dragging. Edit text, resize paper, change colors, pin reading quotes, and undo a deletion.                                                                                                         |
+| Poetry playground | Add Uyghur word tiles by clicking or dragging, reorder them with drag/drop or buttons, insert line breaks, save and reopen poems, and turn a poem into a postcard.                                                                                                                 |
+| Story trail       | An original branching Uyghur story with three endings, backtracking, restart, and a saved reading path.                                                                                                                                                                            |
+| Letter corner     | Write drafts, choose stationery and a stamp, seal a letter, animate its opening, reread it, and edit it again. Letters are never sent.                                                                                                                                             |
+| Word garden       | Distinct completed activities add flowers. Repeating the same activity does not duplicate rewards. Watering is available once per local calendar day. The garden shows twelve flowers and continues counting later achievements.                                                   |
+| Postcard maker    | Customize text, paper, handwriting, and a sticker; export a 1200 × 1500 PNG with embedded local fonts. A real exported-image preview and download link support mobile saving. Long text is fitted down to 18px; export is blocked with a helpful message if it still will not fit. |
+
+Additional features:
+
+- Morning, rainy afternoon, and evening lamplight desk themes.
+- Optional synthesized paper and pencil sounds, off by default. Sound starts only after interaction and requires browser audio support.
+- Surprise envelopes with original poems, prompts, and encouraging messages.
+- A focused reading view with adjustable font size and line spacing, saved reading position, resume-reading shortcut, favorites, and a quote-pinning action.
+- Create, edit, and delete posts and private notes. The studio supports drafts and demo publication; drafts stay out of the public-looking reading feed.
+- Search and category filters, mood buttons, rotating prompts, bar/line chart demos, an interactive task table with progress, and an idea map.
+- All 333 installed art assets are available in the art library: 96 stickers, 48 doodles, 15 mascot poses, 14 scenes, and 160 icons.
+- Responsive RTL layouts, keyboard controls, and reduced-motion support.
+- An icon-only footer for Instagram, X, YouTube, Idirak, and Ko-fi, with accessible link labels.
+
+## Browser storage
+
+Saved work and preferences live in versioned localStorage keys (`pichirlash-…-v1`); older notes and favorites retain their existing keys for compatibility. There is no cross-device synchronization. Clearing browser data removes saved creations. Storage errors are shown in the affected feature. The garden records activity labels and local dates only inside this browser.
+
+## Content and fonts
+
+Edit `src/data/content.ts` for the original poems, stories, and learning prompts. The branching story and data validators are in `src/components/play/model.ts`. No third-party literary works are included.
+
+UKIJ Qolyazma Regular is self-hosted in WOFF2 format and used throughout the UI. Noto Naskh Arabic is bundled through Fontsource as a fallback and an optional postcard font. The postcard exporter embeds the chosen local font; it does not depend on a remote font service. Font notices are in `public/fonts/`.
 
 ## Looseleaf registry
 
-`components.json` registers `@looseleaf`. The imported Button and Sticker components and InkProvider are used in the interface. Paper, tape, dialog, doodle and mascot components are also installed for future expansion, alongside the complete sticker, doodle, mascot, scene, prop, and icon collections supplied by their registry items.
+`components.json` registers `@looseleaf`. The interface uses the imported drawing engine, buttons, paper, stickers, mascots, badges, charts, tables, and progress components.
 
-The shadcn CLI could not reach the registry through this environment's Node proxy. `scripts/install-looseleaf.py` imports the published registry JSON files directly, recursively resolves their dependencies, maps aliases to `src/`, and materializes the registry CSS. `looseleaf-registry-manifest.json` records installed items. To install additional components in a normal environment:
+The original shadcn CLI request could not reach the registry through this environment's Node proxy. `scripts/install-looseleaf.py` is the reproducible fallback: it imports published registry JSON directly, resolves dependencies, maps aliases to `src/`, and materializes registry CSS. `looseleaf-registry-manifest.json` records installed items. In a normal environment, add more components with:
 
 ```sh
 npx shadcn@latest add @looseleaf/sticky-note
 ```
 
-Looseleaf artwork and drawing components are by Kevin T. Ngo under the MIT license; see `LOOSELEAF-LICENSE`. Reference: https://kevintngo.github.io/looseleaf/.
+Looseleaf artwork and drawing components are by Kevin T. Ngo and contributors under MIT; see `LOOSELEAF-LICENSE`. Reference: https://kevintngo.github.io/looseleaf/.
 
-## Content
+## Verification
 
-Edit `src/data/content.ts` to change the original Uyghur poems, stories, and learning prompts. Edit footer links in `src/App.tsx`. No third-party literary works are included.
+`npm test` checks reward idempotency, calendar-day watering, desk geometry, word reordering, storage validation, and every reachable story ending. The production build also runs TypeScript checks.
 
-## Frontend demo studio
-
-The top navigation switches between reading, a writing studio, and the art library. The studio supports creating and editing poetry, stories and learning posts, drafts, demo publication, deletion, paper colors and a live preview. Drafts are excluded from the reading feed. Changes stay in `pichirlash-library-v1` in localStorage; demo publication never sends content to a server.
-
-The art library exposes all 333 installed assets: 96 stickers, 48 doodles, 15 mascot poses, 14 scenes and 160 icons. It has category filters and pagination; selecting artwork opens a decorated post in the studio. The icon-only social footer is preserved.
-
-Validation: production TypeScript/build passed; browser checks covered gallery selection, creating a decorated post, editing it, and saving it as a draft. Accounts and shared database storage are intentionally deferred.
-
-## Expanded notebook sections
-
-The reading page includes a persistent mood picker, rotating writing prompts on Looseleaf Paper, an encouragement card, native Looseleaf bar/line charts with labeled demo data, a task table with persistent checkmarks and progress, and an interactive idea map. Hero paper, stickers and accents use gentle CSS motion; reduced-motion preferences disable it.
-
-UKIJ Qolyazma Regular is self-hosted in WOFF2 format and used throughout the UI. Its family, Regular style, LGPL metadata and Uyghur glyph coverage were verified against the source TTF. Source and distribution notices are in `public/fonts/`.
+Browser QA covered desk dragging and keyboard movement, poetry saving/reordering and postcard handoff, real PNG downloads and exported-image rendering, sealing/opening letters, story completion, garden rewards/watering, focused reading and quote pinning, theme switching, optional sounds, reload persistence, and phone-width desk/garden layouts. The registry's embedded textures and full artwork collections still create large shared JavaScript chunks; the six creative feature screens are loaded on demand.

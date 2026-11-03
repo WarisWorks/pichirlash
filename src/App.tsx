@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
   BookOpen,
@@ -30,6 +30,33 @@ import ArtLibrary, { Art } from "./components/demo/ArtLibrary";
 import type { Decoration } from "./components/demo/ArtLibrary";
 import "./demo.css";
 import "./App.css";
+import "./play.css";
+import PlayPreview from "./components/play/PlayPreview";
+import type { PlayPanel } from "./components/play/PlayPreview";
+import SurpriseEnvelope from "./components/play/SurpriseEnvelope";
+import ReadingRoom from "./components/play/ReadingRoom";
+import {
+  DeskSettings,
+  ExperienceProvider,
+  StorageNotice,
+} from "./components/play/Experience";
+import { loadLocal, useLocal } from "./components/play/useLocal";
+import {
+  awardReward,
+  emptyGarden,
+  validGarden,
+  waterGarden,
+  localDay,
+  validDesk,
+  starterDesk,
+  uid,
+  isRecord,
+} from "./components/play/model";
+import type { GardenState, DeskItem } from "./components/play/model";
+const CreativePlayground = lazy(
+  () => import("./components/play/CreativePlayground"),
+);
+
 type Note = { id: string; title: string; body: string; color: string };
 type Tab = "all" | "poem" | "story" | "school" | "notes" | "saved";
 const tabs: { id: Tab; label: string; icon: typeof Heart }[] = [
@@ -49,7 +76,54 @@ function readStored<T>(key: string, fallback: T): T {
   }
 }
 function App() {
-  const [view, setView] = useState<"read" | "studio" | "art">("read");
+  const [view, setView] = useState<"read" | "studio" | "art" | "play">("read");
+  const [initialPanel, setInitialPanel] = useState<PlayPanel>("desk");
+  const [playInstance, setPlayInstance] = useState(0);
+  const [composeType, setComposeType] = useState<Entry["type"]>("poem");
+  const [toast, setToast] = useState("");
+  const {
+    value: garden,
+    setValue: setGarden,
+    error: gardenError,
+  } = useLocal<GardenState>("pichirlash-garden-v1", emptyGarden, validGarden);
+  const { value: lastRead, setValue: setLastRead } = useLocal<{
+    id: string;
+    title: string;
+  }>(
+    "pichirlash-last-read-v1",
+    { id: "", title: "" },
+    (v): v is { id: string; title: string } =>
+      isRecord(v) && typeof v.id === "string" && typeof v.title === "string",
+  );
+  const reward = (id: string, label: string) => {
+    const isNew = !garden.rewards.some((r) => r.id === id);
+    setGarden((v) =>
+      awardReward(v, { id, label, kind: id.split(":")[0], day: localDay() }),
+    );
+    if (isNew) setToast("باغچىڭىزغا بىر گۈل قوشۇلدى: " + label);
+  };
+  const openPlay = (panel: PlayPanel) => {
+    setInitialPanel(panel);
+    setPlayInstance((v) => v + 1);
+    setView("play");
+    window.scrollTo({
+      top: 0,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
+    });
+  };
+  const startWriting = (type: Entry["type"] = "poem") => {
+    setComposeType(type);
+    setDecoration({ kind: "sticker", name: "notebook" });
+    setView("studio");
+    window.scrollTo({ top: 0, behavior: "auto" });
+  };
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => setToast(""), 5000);
+    return () => clearTimeout(timer);
+  }, [toast]);
   const [decoration, setDecoration] = useState<Decoration>();
   const [library, setLibrary] = useState<DemoEntry[]>(() => {
     const stored = readStored<unknown>("pichirlash-library-v1", null);
@@ -68,6 +142,13 @@ function App() {
   const [libraryError, setLibraryError] = useState(false);
   const updateLibrary = (items: DemoEntry[]) => {
     setLibrary(items);
+    const written = items.find(
+      (item) =>
+        !item.draft &&
+        (!library.some((old) => old.id === item.id && !old.draft) ||
+          library.find((old) => old.id === item.id)?.body !== item.body),
+    );
+    if (written) reward(`writing:${written.id}`, "بىر يېڭى يازما");
     try {
       localStorage.setItem("pichirlash-library-v1", JSON.stringify(items));
       setLibraryError(false);
@@ -101,6 +182,41 @@ function App() {
   const [editing, setEditing] = useState<Note | null>(null),
     [storageError, setStorageError] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null);
+  useEffect(() => {
+    if (active) setLastRead({ id: active.id, title: active.title });
+  }, [active, setLastRead]);
+  const pinQuote = (text: string) => {
+    const desk = loadLocal<DeskItem[]>(
+      "pichirlash-desk-v1",
+      starterDesk,
+      validDesk,
+    );
+    if (desk.length >= 30) {
+      setToast("ئۈستەل تولۇپ قالدى. ئالدى بىلەن بىر پارچىنى ئۆچۈرۈڭ.");
+      return;
+    }
+    const item: DeskItem = {
+      id: uid(),
+      type: "quote",
+      text: text.slice(0, 140),
+      art: "",
+      color: "pink",
+      x: 32,
+      y: 20,
+      w: 28,
+    };
+    try {
+      localStorage.setItem(
+        "pichirlash-desk-v1",
+        JSON.stringify([...desk, item]),
+      );
+      close();
+      openPlay("desk");
+      setToast("نەقىل ئىجادىي ئۈستەلگە قادالدى.");
+    } catch {
+      setToast("نەقىلنى ساقلىغىلى بولمىدى. يېزىقنى كۆچۈرۈپ ساقلاڭ.");
+    }
+  };
   useEffect(() => {
     try {
       localStorage.setItem("pichirlash-saved", JSON.stringify(saved));
@@ -145,6 +261,8 @@ function App() {
       { ...editing, title: editing.title.trim(), body: editing.body.trim() },
       ...v.filter((n) => n.id !== editing.id),
     ]);
+    reward(`note:${editing.id}`, "بىر شەخسىي خاتىرە");
+    setView("read");
     setTab("notes");
     setQuery("");
     close();
@@ -190,6 +308,7 @@ function App() {
           {(
             [
               { id: "read", label: "ئوقۇش", icon: BookOpen },
+              { id: "play", label: "ئىجادىي مەيدان", icon: Sparkles },
               { id: "studio", label: "يېزىقچىلىق بۇلۇڭى", icon: NotebookPen },
               { id: "art", label: "سەنئەت ساندۇقى", icon: Sparkles },
             ] as const
@@ -198,6 +317,7 @@ function App() {
               key={item.id}
               aria-pressed={view === item.id}
               onClick={() => {
+                setComposeType("poem");
                 setView(item.id);
                 setDecoration(undefined);
               }}
@@ -206,9 +326,38 @@ function App() {
               {item.label}
             </button>
           ))}
+          <DeskSettings />
           <span>سىناق نۇسخىسى</span>
         </nav>
         <main>
+          {view === "play" && (
+            <Suspense
+              fallback={
+                <p className="play-loading" role="status">
+                  ئىجادىي بەت تەييارلىنىۋاتىدۇ…
+                </p>
+              }
+            >
+              <CreativePlayground
+                key={playInstance}
+                initialPanel={initialPanel}
+                garden={garden}
+                onReward={reward}
+                onWater={() => {
+                  setGarden((v) => waterGarden(v, localDay()));
+                  setToast("باغچىڭىزغا سۇ بېرىلدى. رەھمەت!");
+                }}
+                onRead={() => {
+                  setView("read");
+                  requestAnimationFrame(() =>
+                    document.getElementById("notebook")?.scrollIntoView(),
+                  );
+                }}
+                onWrite={() => startWriting("story")}
+              />
+            </Suspense>
+          )}
+          {gardenError && <StorageNotice />}
           {libraryError && (
             <p role="alert" className="storage-warning">
               يازما ساقلانمىدى. توركۆرگۈچ ساقلاش بوشلۇقىنى تەكشۈرۈڭ.
@@ -223,12 +372,14 @@ function App() {
               onChange={updateLibrary}
               onRead={setActive}
               decoration={decoration}
+              initialType={composeType}
               onDone={() => setDecoration(undefined)}
             />
           )}
           {view === "art" && (
             <ArtLibrary
               onChoose={(art) => {
+                setComposeType("poem");
                 setDecoration(art);
                 setView("studio");
               }}
@@ -302,6 +453,23 @@ function App() {
                 <span className="art-dots">···</span>
               </div>
             </section>
+            <PlayPreview onOpen={openPlay} />
+            <SurpriseEnvelope onCreate={() => openPlay("poetry")} />
+            {lastRead.id &&
+              library.some((e) => e.id === lastRead.id && !e.draft) && (
+                <div className="resume-reading">
+                  <Bookmark size={18} />
+                  <span>ئاخىرقى ئوقۇغان بېتىڭىز: {lastRead.title}</span>
+                  <Button
+                    variant="ghost"
+                    onClick={() =>
+                      setActive(library.find((e) => e.id === lastRead.id)!)
+                    }
+                  >
+                    داۋاملاشتۇرۇش <ArrowLeft size={16} />
+                  </Button>
+                </div>
+              )}
             <section id="notebook" className="notebook">
               <div className="section-heading">
                 <div>
@@ -471,7 +639,9 @@ function App() {
               )}
             </section>
             <NotebookSections
+              onActivity={reward}
               onWrite={() => {
+                setComposeType("poem");
                 setDecoration({ kind: "sticker", name: "notebook" });
                 setView("studio");
                 window.scrollTo({ top: 0, behavior: "smooth" });
@@ -527,6 +697,15 @@ function App() {
             </a>
           ))}
         </footer>
+        {toast && (
+          <div className="play-toast" role="status">
+            <Check size={18} />
+            {toast}
+            <button aria-label="ئۇقتۇرۇشنى تاقاش" onClick={() => setToast("")}>
+              ×
+            </button>
+          </div>
+        )}
         <dialog
           aria-label={editing ? "خاتىرە تەھرىرلەش" : "يازما ئوقۇش"}
           ref={dialog}
@@ -541,23 +720,14 @@ function App() {
               <X size={23} />
             </button>
             {active && (
-              <>
-                <span className="eyebrow">
-                  {labels[active.type]} · {active.time}
-                </span>
-                {(active as DemoEntry).art && (
-                  <Art art={(active as DemoEntry).art!} size={90} />
-                )}
-                <h2>{active.title}</h2>
-                <div className="reading-body">{active.body}</div>
-                <Button variant="outline" onClick={() => toggleSave(active.id)}>
-                  <Heart
-                    size={18}
-                    fill={saved.includes(active.id) ? "currentColor" : "none"}
-                  />
-                  {saved.includes(active.id) ? "ساقلاندى" : "ساقلاپ قوياي"}
-                </Button>
-              </>
+              <ReadingRoom
+                key={active.id}
+                entry={active as DemoEntry}
+                saved={saved.includes(active.id)}
+                onSave={() => toggleSave(active.id)}
+                onFinish={() => reward(`read:${active.id}`, "بىر پارچە ئوقۇش")}
+                onPin={pinQuote}
+              />
             )}
             {editing && (
               <form
@@ -627,4 +797,10 @@ function App() {
     </InkProvider>
   );
 }
-export default App;
+export default function Pichirlash() {
+  return (
+    <ExperienceProvider>
+      <App />
+    </ExperienceProvider>
+  );
+}

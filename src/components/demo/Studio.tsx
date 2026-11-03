@@ -6,12 +6,12 @@ import type { Decoration } from "./ArtLibrary";
 import { labels } from "@/data/content";
 import type { Entry } from "@/data/content";
 export type DemoEntry = Entry & { draft?: boolean; art?: Decoration };
-const blank = (art?: Decoration): DemoEntry => ({
+const blank = (art?: Decoration, type: Entry["type"] = "poem"): DemoEntry => ({
   id: `demo-${Date.now()}-${Math.random().toString(36).slice(2)}`,
   title: "",
   body: "",
   excerpt: "",
-  type: "poem",
+  type,
   color: "pink",
   time: "١ مىنۇت",
   draft: true,
@@ -23,15 +23,17 @@ export default function Studio({
   onRead,
   decoration,
   onDone,
+  initialType = "poem",
 }: {
   items: DemoEntry[];
   onChange: (items: DemoEntry[]) => void;
   onRead: (item: DemoEntry) => void;
   decoration?: Decoration;
   onDone: () => void;
+  initialType?: Entry["type"];
 }) {
   const [edit, setEdit] = useState<DemoEntry | null>(() =>
-      decoration ? blank(decoration) : null,
+      decoration ? blank(decoration, initialType) : null,
     ),
     [preview, setPreview] = useState(false),
     [message, setMessage] = useState("");
@@ -62,7 +64,7 @@ export default function Studio({
         </div>
         <Button
           onClick={() => {
-            setEdit(blank());
+            setEdit(blank(undefined, initialType));
             setPreview(false);
             setMessage("");
           }}

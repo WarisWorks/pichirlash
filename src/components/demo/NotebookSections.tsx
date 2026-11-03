@@ -103,9 +103,11 @@ function stored<T>(key: string, fallback: T): T {
 export default function NotebookSections({
   onWrite,
   onBrowse,
+  onActivity,
 }: {
   onWrite: () => void;
   onBrowse: () => void;
+  onActivity?: (id: string, label: string) => void;
 }) {
   const [mood, setMood] = useState<number>(() => {
       const v = stored("pichirlash-mood-v1", 0);
@@ -130,6 +132,8 @@ export default function NotebookSections({
     const next = done.includes(index)
       ? done.filter((x) => x !== index)
       : [...done, index];
+    if (next.includes(index))
+      onActivity?.(`challenge:${index}`, challenges[index].name);
     setDone(next);
     save("pichirlash-challenges-v1", next);
   };
