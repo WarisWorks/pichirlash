@@ -1,7 +1,10 @@
 {
   "source": "https://kevintngo.github.io/looseleaf/r/",
   "items": [
+    "badge",
     "button",
+    "chart",
+    "checkbox",
     "dialog",
     "doodle",
     "font-ibm-plex-mono",
@@ -25,9 +28,16 @@
     "mascot",
     "paper",
     "paper",
+    "progress",
+    "stamp",
+    "stamp-button",
     "sticker",
+    "sticky-note",
+    "table",
     "tape",
-    "tape"
+    "tape",
+    "use-live-motion",
+    "use-paper-object"
   ],
   "dependencies": [
     "@fontsource/ibm-plex-mono",

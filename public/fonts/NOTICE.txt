@@ -1,0 +1,6 @@
+UKIJ Qolyazma Regular
+Designer: Adiljan Abliz (Uchqur); Uyghur Computer Science Association.
+Source: https://github.com/SilvaQ/fonts-for-uyghur/tree/master/assets/fonts/UKIJQolyazma_Regular
+Upstream copyright and distribution information: https://github.com/SilvaQ/fonts-for-uyghur/blob/master/README.md
+Upstream states that UKIJ fonts are distributed under LGPL and Open Font License.
+Font is redistributed unchanged. Refer to embedded font metadata for original notices.

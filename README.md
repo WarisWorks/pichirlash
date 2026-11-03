@@ -49,3 +49,9 @@ The top navigation switches between reading, a writing studio, and the art libra
 The art library exposes all 333 installed assets: 96 stickers, 48 doodles, 15 mascot poses, 14 scenes and 160 icons. It has category filters and pagination; selecting artwork opens a decorated post in the studio. The icon-only social footer is preserved.
 
 Validation: production TypeScript/build passed; browser checks covered gallery selection, creating a decorated post, editing it, and saving it as a draft. Accounts and shared database storage are intentionally deferred.
+
+## Expanded notebook sections
+
+The reading page includes a persistent mood picker, rotating writing prompts on Looseleaf Paper, an encouragement card, native Looseleaf bar/line charts with labeled demo data, a task table with persistent checkmarks and progress, and an interactive idea map. Hero paper, stickers and accents use gentle CSS motion; reduced-motion preferences disable it.
+
+UKIJ Qolyazma Regular is self-hosted in WOFF2 format and used throughout the UI. Its family, Regular style, LGPL metadata and Uyghur glyph coverage were verified against the source TTF. Source and distribution notices are in `public/fonts/`.

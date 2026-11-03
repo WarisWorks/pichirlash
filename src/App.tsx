@@ -23,6 +23,7 @@ import { Sticker } from "@/components/ui/sticker";
 import { InkProvider } from "@/lib/ink/react";
 import { entries, labels } from "./data/content";
 import type { Entry } from "./data/content";
+import NotebookSections from "./components/demo/NotebookSections";
 import Studio from "./components/demo/Studio";
 import type { DemoEntry } from "./components/demo/Studio";
 import ArtLibrary, { Art } from "./components/demo/ArtLibrary";
@@ -469,6 +470,18 @@ function App() {
                 </div>
               )}
             </section>
+            <NotebookSections
+              onWrite={() => {
+                setDecoration({ kind: "sticker", name: "notebook" });
+                setView("studio");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              onBrowse={() =>
+                document
+                  .getElementById("notebook")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+            />
             <aside className="closing">
               <span className="closing-star">✳</span>
               <p>

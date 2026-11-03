@@ -2,7 +2,7 @@
 import concurrent.futures,json,pathlib,subprocess
 root=pathlib.Path(__file__).resolve().parents[1]
 base='https://kevintngo.github.io/looseleaf/r/'
-pending={base+n+'.json' for n in ['looseleaf-theme','button','paper','sticker','mascot','doodle','tape','dialog','ink-stickers','ink-doodles','ink-mascots','ink-scenes','ink-props','ink-icons']}
+pending={base+n+'.json' for n in ['table','progress','checkbox','badge','stamp-button','sticky-note','chart','looseleaf-theme','button','paper','sticker','mascot','doodle','tape','dialog','ink-stickers','ink-doodles','ink-mascots','ink-scenes','ink-props','ink-icons']}
 seen=set();packages=set();manifest=[]
 def fetch(url):
  p=subprocess.run(['curl','--fail','-sL','--retry','2','--max-time','45',url],capture_output=True,check=True)
