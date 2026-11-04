@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import { useEnsureInkDefs } from "@/lib/ink/react"
 import { doodles, type DoodleName } from "@/lib/ink/art/doodles"
 import { drawSkeleton, memo } from "@/lib/ink/art-draw"
+import { artRegion, localizeGrainMasks, stableId } from "@/lib/ink/local-grain"
 import type { ArtAccent, ArtDef } from "@/lib/ink/art/types"
 
 function Doodle({
@@ -32,7 +33,12 @@ function Doodle({
   const def = (doodles as Record<string, ArtDef>)[name]
   if (!def) return null
   const px = Math.max(24, Math.round(size))
-  const res = memo(`doodle|${name}|${px}|${accent ?? ""}|${seed ?? ""}`, () => drawSkeleton(def, px, seed ?? name, { tone: "doodle", accent, kind: "doodle" }))
+  const key = `doodle|${name}|${px}|${accent ?? ""}|${seed ?? ""}`
+  const res = memo(key, () => {
+    const r = drawSkeleton(def, px, seed ?? name, { tone: "doodle", accent, kind: "doodle" })
+    // Keep grain masks the size of the doodle, not 8192 px (see local-grain.ts).
+    return { ...r, svg: localizeGrainMasks(r.svg, artRegion(r.w, r.h), `ll-d${stableId(key)}`) }
+  })
   return (
     <svg
       data-slot="doodle"
