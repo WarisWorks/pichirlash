@@ -11,7 +11,51 @@ export type PlayPanel =
   | "trace"
   | "fillstory"
   | "recipes"
-  | "voices";
+  | "voices"
+  | "numbers"
+  | "alphabet"
+  | "wordsearch"
+  | "memory"
+  | "family"
+  | "diary"
+  | "sprint";
+export type PlayGroup = "create" | "learn" | "games" | "family";
+export const playGroups: {
+  id: PlayGroup;
+  title: string;
+  panels: PlayPanel[];
+}[] = [
+  {
+    id: "create",
+    title: "ئىجادىيەت",
+    panels: [
+      "desk",
+      "poetry",
+      "story",
+      "letters",
+      "postcard",
+      "fillstory",
+      "sprint",
+    ],
+  },
+  {
+    id: "learn",
+    title: "تىل ئۆگىنىش",
+    panels: ["alphabet", "language", "spelling", "trace", "numbers"],
+  },
+  {
+    id: "games",
+    title: "ئويۇنلار",
+    panels: ["wordsearch", "memory", "garden"],
+  },
+  {
+    id: "family",
+    title: "ئائىلە ۋە كۈندىلىك",
+    panels: ["family", "recipes", "voices", "diary"],
+  },
+];
+export const groupOf = (panel: PlayPanel): PlayGroup =>
+  playGroups.find((g) => g.panels.includes(panel))?.id ?? "create";
 export const playPanels: {
   id: PlayPanel;
   title: string;
@@ -57,7 +101,8 @@ export const playPanels: {
   {
     id: "language",
     title: "تىل ئۈستەلى",
-    description: "ئەرەب، لاتىن ۋە كىرىل يېزىقلىرى ئارىسىدا ئالماشتۇرۇڭ؛ سۆزلىرىڭىزنى تەكرارلاڭ.",
+    description:
+      "ئەرەب، لاتىن ۋە كىرىل يېزىقلىرى ئارىسىدا ئالماشتۇرۇڭ؛ سۆزلىرىڭىزنى تەكرارلاڭ.",
     art: "owl",
   },
   {
@@ -90,6 +135,49 @@ export const playPanels: {
     description: "چوڭلارنىڭ ھېكايە ۋە ئەسلىمىلىرىنى ئاۋاز بىلەن ساقلاڭ.",
     art: "smiley",
   },
+  {
+    id: "numbers",
+    title: "سانلار ۋە سائەت",
+    description: "1234 نى ئۇيغۇرچە ئوقۇڭ، سائەتنى ئېيتىشنى ئۆگىنىڭ.",
+    art: "comet",
+  },
+  {
+    id: "alphabet",
+    title: "ئېلىپبە كىتابى",
+    description: "32 ھەرپنى رەسىملىك بەتلەردە ۋاراقلاپ ئۆگىنىڭ.",
+    art: "notebook",
+  },
+  {
+    id: "wordsearch",
+    title: "سۆز ئىزدەش",
+    description: "ھەرپلەر تورىدىن يوشۇرۇن سۆزلەرنى تېپىڭ.",
+    art: "owl",
+  },
+  {
+    id: "memory",
+    title: "ئەستە تۇتۇش ئويۇنى",
+    description: "كارتىلارنى ئۆرۈپ، ماس جۈپلەرنى تېپىڭ.",
+    art: "bunny",
+  },
+  {
+    id: "family",
+    title: "ئائىلە دەرىخى",
+    description:
+      "تۇغقانلىرىڭىزنى قوشۇڭ، ئۇيغۇرچە تۇغقاندارچىلىق ناملىرىنى ئۆگىنىڭ.",
+    art: "sunflower",
+  },
+  {
+    id: "diary",
+    title: "كەيپىيات كۈندىلىكى",
+    description: "ھەر كۈنى بىر قۇر يېزىڭ، ئايلىق كەيپىياتىڭىزنى كۆرۈڭ.",
+    art: "teacup",
+  },
+  {
+    id: "sprint",
+    title: "يېزىقچىلىق مۇسابىقىسى",
+    description: "ۋاقىت بەلگىلەپ، توختىماي يېزىپ بېقىڭ.",
+    art: "comet",
+  },
 ];
 export default function PlayPreview({
   onOpen,
@@ -106,21 +194,28 @@ export default function PlayPreview({
           <h2>بۈگۈن نېمە ياسىماقچى؟</h2>
         </div>
       </div>
-      <div className="play-preview-grid">
-        {playPanels.map((item) => (
-          <button
-            key={item.id}
-            className={`preview-${item.id}`}
-            onClick={() => onOpen(item.id)}
-          >
-            <Sticker name={item.art} size={66} />
-            <span>
-              <strong>{item.title}</strong>
-              <small>{item.description}</small>
-            </span>
-          </button>
-        ))}
-      </div>
+      {playGroups.map((group) => (
+        <div key={group.id} className="play-preview-group">
+          <h3>{group.title}</h3>
+          <div className="play-preview-grid">
+            {group.panels
+              .map((id) => playPanels.find((p) => p.id === id)!)
+              .map((item) => (
+                <button
+                  key={item.id}
+                  className={`preview-${item.id}`}
+                  onClick={() => onOpen(item.id)}
+                >
+                  <Sticker name={item.art} size={66} />
+                  <span>
+                    <strong>{item.title}</strong>
+                    <small>{item.description}</small>
+                  </span>
+                </button>
+              ))}
+          </div>
+        </div>
+      ))}
     </section>
   );
 }

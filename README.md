@@ -63,6 +63,22 @@ Additional features:
 
 All numbers use Western digits (0–9), as in everyday Uyghur writing.
 
+## More learning, games and everyday features
+
+The playground is grouped into four sections: creativity, language learning, games, and family & daily life.
+
+| Feature | Behavior |
+| --- | --- |
+| Numbers & clock | Digits → Uyghur words (1234 → بىر مىڭ ئىككى يۈز ئوتتۇز تۆت) with Latin script and listening, number quizzes, and an adjustable clock that tells the time in words. |
+| Alphabet book | A picture page for each of the 32 letters: forms, example words, transliteration and listening; mark letters as learned. |
+| Word search | Seeded puzzles in three sizes from themed dictionary words or your saved words; drag, tap or keyboard selection, hints and best times. |
+| Memory match | Flip-card pairs: picture ↔ word, Arabic ↔ Latin script, Uyghur ↔ English. |
+| Family tree | Add relatives and see them by generation with Uyghur kinship terms, a "what do I call…?" helper, regional variants, and PNG export. |
+| Mood diary | One entry per day with a mood and tags, a Monday-first month calendar with Uyghur month and weekday names, and a monthly summary. |
+| Writing sprint | Timed free writing with prompts, a word goal, a progress ring and an optional no-deleting mode. |
+| Word of the day | A daily dictionary word on the home page, in all three scripts. |
+| Backup & restore | In the mood menu: save everything to a JSON file and restore it (merge or replace) on any device. Voice recordings are downloaded separately. |
+
 ## Classic letters
 
 The letter corner offers ivory, botanical, midnight-gold, and Silk Road stationery, with decorative borders, handwritten UKIJ Qolyazma text, a signature, date, and wax seal. Wording templates cover gratitude, friendship, family, a future self, and formal thanks. Applying a template asks before replacing existing text.

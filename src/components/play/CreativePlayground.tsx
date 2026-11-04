@@ -1,5 +1,5 @@
 import { lazy, Suspense, useState } from "react";
-import { playPanels } from "./PlayPreview";
+import { groupOf, playGroups, playPanels } from "./PlayPreview";
 import type { PlayPanel } from "./PlayPreview";
 import type { CardContent } from "./PoetryPlayground";
 import { localDay } from "./model";
@@ -16,6 +16,13 @@ const Trace = lazy(() => import("./CalligraphyTrace"));
 const FillStory = lazy(() => import("./FillStory"));
 const Recipes = lazy(() => import("./RecipeCards"));
 const Voices = lazy(() => import("./VoiceNotes"));
+const Numbers = lazy(() => import("./NumbersPanel"));
+const Alphabet = lazy(() => import("./AlphabetBook"));
+const WordSearch = lazy(() => import("./WordSearch"));
+const Memory = lazy(() => import("./MemoryMatch"));
+const Family = lazy(() => import("./FamilyTree"));
+const Diary = lazy(() => import("./MoodDiary"));
+const Sprint = lazy(() => import("./WritingSprint"));
 export default function CreativePlayground({
   initialPanel,
   garden,
@@ -41,16 +48,30 @@ export default function CreativePlayground({
   };
   return (
     <div className="creative-playground">
-      <nav className="play-tabs" aria-label="ئىجادىي مەيدان يولباشچى">
-        {playPanels.map((item) => (
+      <nav className="play-groups" aria-label="بۆلۈملەر">
+        {playGroups.map((g) => (
           <button
-            key={item.id}
-            aria-pressed={panel === item.id}
-            onClick={() => setPanel(item.id)}
+            key={g.id}
+            aria-pressed={groupOf(panel) === g.id}
+            onClick={() => setPanel(g.panels[0])}
           >
-            {item.title}
+            {g.title}
           </button>
         ))}
+      </nav>
+      <nav className="play-tabs" aria-label="ئىجادىي مەيدان يولباشچى">
+        {playGroups
+          .find((g) => g.id === groupOf(panel))!
+          .panels.map((id) => playPanels.find((p) => p.id === id)!)
+          .map((item) => (
+            <button
+              key={item.id}
+              aria-pressed={panel === item.id}
+              onClick={() => setPanel(item.id)}
+            >
+              {item.title}
+            </button>
+          ))}
       </nav>
       <Suspense
         fallback={
@@ -89,6 +110,13 @@ export default function CreativePlayground({
         {panel === "fillstory" && <FillStory onReward={onReward} />}
         {panel === "recipes" && <Recipes onReward={onReward} />}
         {panel === "voices" && <Voices onReward={onReward} />}
+        {panel === "numbers" && <Numbers onReward={onReward} />}
+        {panel === "alphabet" && <Alphabet onReward={onReward} />}
+        {panel === "wordsearch" && <WordSearch onReward={onReward} />}
+        {panel === "memory" && <Memory onReward={onReward} />}
+        {panel === "family" && <Family onReward={onReward} />}
+        {panel === "diary" && <Diary onReward={onReward} />}
+        {panel === "sprint" && <Sprint onReward={onReward} />}
       </Suspense>
     </div>
   );
