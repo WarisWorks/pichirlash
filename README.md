@@ -2,6 +2,10 @@
 
 A cozy Uyghur reading and creative playground. React 19, TypeScript, Vite, Tailwind CSS 4, Lucide, and real Looseleaf registry components and artwork. The entire experience is a frontend demo; no accounts, server, or environment variables are required.
 
+## Typeface
+
+Uyghur text uses the **Karton** typeface (`public/fonts/Karton-Regular.woff2`), with UKIJ Qolyazma and Noto Naskh Arabic as fallbacks. Postcards, letters, recipe cards and the family tree embed Karton in exported images. Calligraphy tracing keeps UKIJ Qolyazma as its handwriting model, and postcards can still choose UKIJ Qolyazma or Noto Naskh Arabic. Karton has no Cyrillic letters, so Cyrillic-script text falls back to another font.
+
 ## Run and verify
 
 Use Node.js 24 and npm:
@@ -62,6 +66,22 @@ Additional features:
 | Offline & install | Whole app | The production build generates a service worker caching every file, plus a web manifest and icons; the browser's install button appears when supported. |
 
 All numbers use Western digits (0–9), as in everyday Uyghur writing.
+
+## More learning, games and everyday features
+
+The playground is grouped into four sections: creativity, language learning, games, and family & daily life.
+
+| Feature | Behavior |
+| --- | --- |
+| Numbers & clock | Digits → Uyghur words (1234 → بىر مىڭ ئىككى يۈز ئوتتۇز تۆت) with Latin script and listening, number quizzes, and an adjustable clock that tells the time in words. |
+| Alphabet book | A picture page for each of the 32 letters: forms, example words, transliteration and listening; mark letters as learned. |
+| Word search | Seeded puzzles in three sizes from themed dictionary words or your saved words; drag, tap or keyboard selection, hints and best times. |
+| Memory match | Flip-card pairs: picture ↔ word, Arabic ↔ Latin script, Uyghur ↔ English. |
+| Family tree | Add relatives and see them by generation with Uyghur kinship terms, a "what do I call…?" helper, regional variants, and PNG export. |
+| Mood diary | One entry per day with a mood and tags, a Monday-first month calendar with Uyghur month and weekday names, and a monthly summary. |
+| Writing sprint | Timed free writing with prompts, a word goal, a progress ring and an optional no-deleting mode. |
+| Word of the day | A daily dictionary word on the home page, in all three scripts. |
+| Backup & restore | In the mood menu: save everything to a JSON file and restore it (merge or replace) on any device. Voice recordings are downloaded separately. |
 
 ## Classic letters
 

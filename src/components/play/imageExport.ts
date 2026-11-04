@@ -1,16 +1,18 @@
 import notoFontURL from "@fontsource/noto-naskh-arabic/files/noto-naskh-arabic-arabic-400-normal.woff2?url";
-export type LocalFont = "UKIJ Qolyazma" | "Noto Naskh Arabic";
+export type LocalFont = "Karton" | "UKIJ Qolyazma" | "Noto Naskh Arabic";
+const fontFiles: Record<Exclude<LocalFont, "Noto Naskh Arabic">, string> = {
+  Karton: "/fonts/Karton-Regular.woff2",
+  "UKIJ Qolyazma": "/fonts/UKIJQolyazma-Regular.woff2",
+};
 const cache = new Map<LocalFont, Promise<string>>();
 export function forgetFontCSS(font: LocalFont) {
   cache.delete(font);
 }
-export function exportFontCSS(font: LocalFont = "UKIJ Qolyazma") {
+export function exportFontCSS(font: LocalFont = "Karton") {
   let result = cache.get(font);
   if (!result) {
     result = fetch(
-      font === "UKIJ Qolyazma"
-        ? "/fonts/UKIJQolyazma-Regular.woff2"
-        : notoFontURL,
+      font === "Noto Naskh Arabic" ? notoFontURL : fontFiles[font],
     )
       .then((response) => {
         if (!response.ok) throw Error("font-download");

@@ -16,6 +16,7 @@ import type { UyghurScript } from "@/lib/uyghur/script";
 import { convertScript, scriptDir, scriptNames } from "@/lib/uyghur/script";
 import { useLocal } from "./useLocal";
 import { isRecord } from "./model";
+import BackupPanel from "@/components/features/BackupPanel";
 const themes = ["morning", "rain", "lamp", "nawruz", "harvest", "winter"] as const;
 type Theme = (typeof themes)[number];
 type Settings = { theme: Theme; sound: boolean; script?: UyghurScript };
@@ -194,6 +195,7 @@ export function DeskSettings() {
         <p className="local-hint">
           ئاۋاز ئىختىيارىي. تاللىشىڭىز مۇشۇ توركۆرگۈچتە ساقلىنىدۇ.
         </p>
+        <BackupPanel />
         {error && <StorageNotice />}
       </div>
     </details>

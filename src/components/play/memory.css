@@ -1,0 +1,206 @@
+.mm-panel {
+  --mm-ink: #485c3b;
+  --mm-muted: #78846d;
+  --mm-line: #d4d6c2;
+  --mm-paper: #fffdf5;
+  --mm-back: #8fa874;
+  --mm-back-2: #a9bd8f;
+  --mm-match: #e9f0dc;
+  --mm-match-line: #a8c28b;
+}
+.mm-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.mm-modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.mm-modes button {
+  padding: 6px 14px;
+  font: inherit;
+  color: var(--mm-ink);
+  background: #fff;
+  border: 1.5px solid var(--mm-line);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.mm-modes button[aria-pressed="true"] {
+  background: var(--mm-ink);
+  border-color: var(--mm-ink);
+  color: #fff;
+}
+.mm-modes button:focus-visible {
+  outline: 2px solid var(--mm-ink);
+  outline-offset: 2px;
+}
+.mm-status-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  margin-bottom: 16px;
+  color: var(--mm-muted);
+}
+.mm-status-bar strong {
+  color: var(--mm-ink);
+  font-variant-numeric: tabular-nums;
+}
+.mm-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.mm-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 620px;
+}
+.mm-grid li {
+  min-width: 0;
+}
+.mm-card {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  min-height: 84px;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--mm-line);
+  border-radius: 10px;
+  background: var(--mm-paper);
+  color: var(--mm-ink);
+  cursor: pointer;
+  box-shadow: 0 3px 0 #e6e4d4;
+  transition: transform 0.15s ease;
+}
+.mm-card:not(.open):hover {
+  transform: translateY(-2px);
+}
+.mm-card:focus-visible {
+  outline: 2px solid var(--mm-ink);
+  outline-offset: 2px;
+}
+.mm-card:not(.open) {
+  background:
+    repeating-linear-gradient(45deg, var(--mm-back) 0 8px, var(--mm-back-2) 8px 16px);
+  border-color: #7d9563;
+}
+.mm-card[aria-disabled="true"] {
+  cursor: default;
+}
+.mm-card.matched {
+  background: var(--mm-match);
+  border-color: var(--mm-match-line);
+}
+.mm-back {
+  display: grid;
+  place-items: center;
+  width: 2em;
+  height: 2em;
+  font-size: 22px;
+  color: var(--mm-ink);
+  background: var(--mm-paper);
+  border-radius: 50%;
+}
+.mm-face {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  animation: mm-flip 0.28s ease both;
+}
+.mm-text {
+  font-family: "Karton", "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
+  font-size: clamp(17px, 3.6vw, 24px);
+  line-height: 1.4;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.mm-text[dir="ltr"] {
+  font-family: inherit;
+  font-size: clamp(14px, 3vw, 19px);
+}
+.mm-text.long {
+  font-size: clamp(13px, 2.8vw, 19px);
+}
+.mm-sticker {
+  width: min(72px, 82%);
+  height: auto;
+}
+.mm-message {
+  min-height: 30px;
+  margin: 14px 0;
+}
+.mm-message p {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  line-height: 1.9;
+  background: #f4f2e4;
+  color: var(--mm-ink);
+}
+.mm-result {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  max-width: 620px;
+  padding: 18px 22px;
+  margin-bottom: 14px;
+  background: var(--mm-paper);
+  border: 1px solid var(--mm-line);
+  border-radius: 10px;
+  box-shadow: 0 3px 0 #e6e4d4;
+}
+.mm-result h3 {
+  font-size: 24px;
+  margin: 0 0 6px;
+  outline: none;
+}
+.mm-result p {
+  margin: 0 0 10px;
+}
+.mm-actions {
+  margin-bottom: 8px;
+}
+@keyframes mm-flip {
+  from {
+    opacity: 0.2;
+    transform: rotateY(90deg);
+  }
+}
+@media (max-width: 480px) {
+  .mm-grid {
+    gap: 6px;
+  }
+  .mm-card {
+    padding: 4px;
+    border-radius: 8px;
+  }
+  .mm-result {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mm-face {
+    animation: none;
+  }
+  .mm-card {
+    transition: none;
+  }
+  .mm-card:not(.open):hover {
+    transform: none;
+  }
+}

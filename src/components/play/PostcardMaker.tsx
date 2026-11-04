@@ -10,7 +10,7 @@ import type { CardContent } from "./PoetryPlayground";
 import { StorageNotice } from "./Experience";
 import ShareLinkButton from "@/components/features/ShareLinkButton";
 type Card = CardContent & {
-  font: "UKIJ Qolyazma" | "Noto Naskh Arabic";
+  font: "Karton" | "UKIJ Qolyazma" | "Noto Naskh Arabic";
   size: number;
 };
 const defaultCard: Card = {
@@ -18,13 +18,13 @@ const defaultCard: Card = {
   text: "ھەر بىر يېڭى كۈن\nبىر يېڭى بەت.\n\nئارزۇلىرىڭىزنى\nمېھىر بىلەن ئاسراڭ.",
   art: "sunflower",
   color: "yellow",
-  font: "UKIJ Qolyazma",
+  font: "Karton",
   size: 32,
 };
 const valid = (v: unknown): v is Card =>
   isRecord(v) &&
   ["title", "text", "art", "color"].every((k) => typeof v[k] === "string") &&
-  ["UKIJ Qolyazma", "Noto Naskh Arabic"].includes(String(v.font)) &&
+  ["Karton", "UKIJ Qolyazma", "Noto Naskh Arabic"].includes(String(v.font)) &&
   typeof v.size === "number" &&
   v.size >= 24 &&
   v.size <= 40;
@@ -184,6 +184,7 @@ export default function PostcardMaker({
                 setCard({ ...card, font: e.target.value as Card["font"] })
               }
             >
+              <option value="Karton">Karton</option>
               <option value="UKIJ Qolyazma">UKIJ Qolyazma</option>
               <option value="Noto Naskh Arabic">Noto Naskh Arabic</option>
             </select>

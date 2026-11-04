@@ -6,12 +6,12 @@
 @import "@fontsource/noto-naskh-arabic/arabic-600.css";
 @import "@fontsource/noto-naskh-arabic/arabic-700.css";
 @theme inline {
-  --font-hand: "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
-  --font-script: "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
-  --font-type: "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
+  --font-hand: "Karton", "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
+  --font-script: "Karton", "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
+  --font-type: "Karton", "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
 }
 :root {
-  font-family: "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
+  font-family: "Karton", "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
   color: #353e34;
   background: #f7f5ed;
   font-synthesis: none;
@@ -67,6 +67,14 @@ html {
   scroll-padding-top: 25px;
 }
 
+/* Karton: the main typeface for Uyghur text. UKIJ Qolyazma remains for handwriting practice. */
+@font-face {
+  font-family: "Karton";
+  src: url("/fonts/Karton-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
 @font-face {
   font-family: "UKIJ Qolyazma";
   src: url("/fonts/UKIJQolyazma-Regular.woff2") format("woff2");
