@@ -241,7 +241,7 @@ export default function LetterCorner({
         )
           throw Error("headers-too-long");
         setStatus(
-          `رەسىم تەييارلىنىۋاتىدۇ: ${(index + 1).toLocaleString("ar")} / ${pages.length.toLocaleString("ar")}`,
+          `رەسىم تەييارلىنىۋاتىدۇ: ${(index + 1).toLocaleString("en-US")} / ${pages.length.toLocaleString("en-US")}`,
         );
         const blob = await toBlob(node, {
           width: LETTER_WIDTH,
@@ -410,8 +410,8 @@ export default function LetterCorner({
           <ArrowRight size={16} />
         </button>
         <span>
-          {(safePage + 1).toLocaleString("ar")} /{" "}
-          {pages.length.toLocaleString("ar")}
+          {(safePage + 1).toLocaleString("en-US")} /{" "}
+          {pages.length.toLocaleString("en-US")}
         </span>
         <button
           type="button"
@@ -588,7 +588,7 @@ export default function LetterCorner({
                 />
               </label>
               <p className="local-hint">
-                {letter.body.length.toLocaleString("ar")} / ٥٬٠٠٠ · ئۇزۇن خەت
+                {letter.body.length.toLocaleString("en-US")} / 5,000 · ئۇزۇن خەت
                 بەتلەرگە ئايرىلىدۇ.
               </p>
               <label className="field">
@@ -796,7 +796,7 @@ export default function LetterCorner({
             {cached.urls.map((url, index) => (
               <figure key={url}>
                 <a href={url} download={`pichirlash-letter-${index + 1}.png`}>
-                  بەت {(index + 1).toLocaleString("ar")} — چۈشۈرۈش
+                  بەت {(index + 1).toLocaleString("en-US")} — چۈشۈرۈش
                 </a>
                 <img
                   src={url}

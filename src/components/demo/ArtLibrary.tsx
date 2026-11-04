@@ -68,7 +68,7 @@ export default function ArtLibrary({
             }}
           >
             {value.label} ·{" "}
-            {Object.keys(value.items).length.toLocaleString("ar")}
+            {Object.keys(value.items).length.toLocaleString("en-US")}
           </button>
         ))}
       </div>
@@ -78,12 +78,12 @@ export default function ArtLibrary({
             className="art-tile"
             key={name}
             onClick={() => onChoose({ kind: group, name })}
-            aria-label={`${collections[group].label} ${(page * size + i + 1).toLocaleString("ar")} — تاللاش`}
+            aria-label={`${collections[group].label} ${(page * size + i + 1).toLocaleString("en-US")} — تاللاش`}
           >
             <Art art={{ kind: group, name }} size={72} />
             <span>
               {collections[group].label}{" "}
-              {(page * size + i + 1).toLocaleString("ar")}
+              {(page * size + i + 1).toLocaleString("en-US")}
             </span>
           </button>
         ))}
@@ -93,8 +93,8 @@ export default function ArtLibrary({
           ئالدىنقى بەت
         </button>
         <span>
-          {(page + 1).toLocaleString("ar")} /{" "}
-          {Math.ceil(names.length / size).toLocaleString("ar")}
+          {(page + 1).toLocaleString("en-US")} /{" "}
+          {Math.ceil(names.length / size).toLocaleString("en-US")}
         </span>
         <button
           disabled={(page + 1) * size >= names.length}

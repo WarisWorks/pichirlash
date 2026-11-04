@@ -31,6 +31,14 @@ import type { Decoration } from "./components/demo/ArtLibrary";
 import "./demo.css";
 import "./App.css";
 import "./play.css";
+import "./features.css";
+import UyghurKeyboard from "./components/features/UyghurKeyboard";
+import ProverbCard from "./components/features/ProverbCard";
+import SharedViewer from "./components/features/SharedViewer";
+import InstallButton from "./components/features/InstallButton";
+import { readShareHash } from "./lib/uyghur/share";
+import type { SharedItem } from "./lib/uyghur/share";
+import { addReadingDay, validDay } from "./lib/uyghur/streak";
 import PlayPreview from "./components/play/PlayPreview";
 import type { PlayPanel } from "./components/play/PlayPreview";
 import SurpriseEnvelope from "./components/play/SurpriseEnvelope";
@@ -95,6 +103,24 @@ function App() {
     (v): v is { id: string; title: string } =>
       isRecord(v) && typeof v.id === "string" && typeof v.title === "string",
   );
+  const { value: readingDays, setValue: setReadingDays } = useLocal<string[]>(
+    "pichirlash-reading-days-v1",
+    [],
+    (v): v is string[] =>
+      Array.isArray(v) && v.every((x) => typeof x === "string" && validDay(x)),
+  );
+  const [shared, setShared] = useState<SharedItem | null>(() =>
+    readShareHash(window.location.hash),
+  );
+  useEffect(() => {
+    const onHash = () => setShared(readShareHash(window.location.hash));
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+  const closeShared = () => {
+    setShared(null);
+    history.replaceState(null, "", window.location.pathname + window.location.search);
+  };
   const reward = (id: string, label: string) => {
     const isNew = !garden.rewards.some((r) => r.id === id);
     setGarden((v) =>
@@ -301,7 +327,7 @@ function App() {
             aria-label="ساقلىغانلىرىم"
           >
             <Heart size={20} />
-            <span>{saved.length.toLocaleString("ar")}</span>
+            <span>{saved.length.toLocaleString("en-US")}</span>
           </button>
         </header>
         <nav className="demo-nav" aria-label="باش يولباشچى">
@@ -327,9 +353,11 @@ function App() {
             </button>
           ))}
           <DeskSettings />
+          <InstallButton />
           <span>سىناق نۇسخىسى</span>
         </nav>
         <main>
+          {shared && <SharedViewer item={shared} onClose={closeShared} />}
           {view === "play" && (
             <Suspense
               fallback={
@@ -342,6 +370,7 @@ function App() {
                 key={playInstance}
                 initialPanel={initialPanel}
                 garden={garden}
+                readingDays={readingDays}
                 onReward={reward}
                 onWater={() => {
                   setGarden((v) => waterGarden(v, localDay()));
@@ -453,6 +482,7 @@ function App() {
                 <span className="art-dots">···</span>
               </div>
             </section>
+            <ProverbCard onReward={reward} />
             <PlayPreview onOpen={openPlay} />
             <SurpriseEnvelope onCreate={() => openPlay("poetry")} />
             {lastRead.id &&
@@ -587,7 +617,7 @@ function App() {
                           {labels[e.type]}
                         </span>
                         <span className="entry-number">
-                          {(i + 1).toLocaleString("ar")}
+                          {(i + 1).toLocaleString("en-US")}
                         </span>
                       </div>
                       <button
@@ -697,6 +727,7 @@ function App() {
             </a>
           ))}
         </footer>
+        <UyghurKeyboard />
         {toast && (
           <div className="play-toast" role="status">
             <Check size={18} />
@@ -727,6 +758,10 @@ function App() {
                 onSave={() => toggleSave(active.id)}
                 onFinish={() => reward(`read:${active.id}`, "بىر پارچە ئوقۇش")}
                 onPin={pinQuote}
+                onReward={reward}
+                onReadDay={() =>
+                  setReadingDays((v) => addReadingDay(v, localDay()))
+                }
               />
             )}
             {editing && (

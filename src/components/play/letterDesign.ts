@@ -99,7 +99,7 @@ export function formatLetterDate(iso: string) {
     "نويابىر",
     "دېكابىر",
   ];
-  return `${year.toLocaleString("ar", { useGrouping: false })}-يىلى ${day.toLocaleString("ar")}-${months[month - 1]}`;
+  return `${year.toLocaleString("en-US", { useGrouping: false })}-يىلى ${day.toLocaleString("en-US")}-${months[month - 1]}`;
 }
 export function letterPlainText(letter: Letter) {
   return [

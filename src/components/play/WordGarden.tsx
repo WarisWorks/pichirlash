@@ -3,13 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Sticker } from "@/components/ui/sticker";
 import { localDay } from "./model";
 import type { GardenState } from "./model";
+import ReadingTree from "@/components/features/ReadingTree";
 export default function WordGarden({
   garden,
+  readingDays = [],
   onWater,
   onRead,
   onCreate,
 }: {
   garden: GardenState;
+  readingDays?: string[];
   onWater: () => void;
   onRead: () => void;
   onCreate: () => void;
@@ -38,11 +41,11 @@ export default function WordGarden({
       </div>
       <div className="garden-summary">
         <span>
-          <strong>{garden.rewards.length.toLocaleString("ar")}</strong> كىچىك
+          <strong>{garden.rewards.length.toLocaleString("en-US")}</strong> كىچىك
           ياخشى ئىش
         </span>
         <span>
-          <strong>{garden.watered.length.toLocaleString("ar")}</strong> قېتىم سۇ
+          <strong>{garden.watered.length.toLocaleString("en-US")}</strong> قېتىم سۇ
           بېرىش
         </span>
         <p>ئالدىرىماڭ. ھەر بىر كىچىك قەدەم قەدىرلىك.</p>
@@ -103,6 +106,7 @@ export default function WordGarden({
           </div>
         )}
       </div>
+      <ReadingTree days={readingDays} />
       <div className="editor-actions">
         <Button onClick={onRead}>
           <BookOpen size={17} /> بىر نەرسە ئوقۇي

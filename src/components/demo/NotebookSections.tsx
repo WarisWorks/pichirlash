@@ -64,25 +64,25 @@ const weekly = days.map((day, i) => ({
 const challenges = [
   {
     name: "بىر پارچە شېئىر ئوقۇش",
-    time: "٥ مىنۇت",
+    time: "5 مىنۇت",
     type: "ئوقۇش",
     icon: BookOpen,
   },
   {
     name: "كۆڭۈلدىكى ئۈچ سۆزنى يېزىش",
-    time: "٣ مىنۇت",
+    time: "3 مىنۇت",
     type: "يېزىش",
     icon: Feather,
   },
   {
     name: "بىر يېڭى سۆز ئۆگىنىش",
-    time: "٢ مىنۇت",
+    time: "2 مىنۇت",
     type: "ئۆگىنىش",
     icon: Sparkles,
   },
   {
     name: "بىر كىشىگە رەھمەت ئېيتىش",
-    time: "١ مىنۇت",
+    time: "1 مىنۇت",
     type: "مېھىر",
     icon: Heart,
   },
@@ -147,8 +147,8 @@ export default function NotebookSections({
     },
     xLabel: "كۈن",
     label: "بىر ھەپتىلىك ئوقۇش ۋە يېزىش — ئۈلگە سانلىق مەلۇمات",
-    yFormatter: (v: number) => v.toLocaleString("ar"),
-    valueFormatter: (v: number) => `${v.toLocaleString("ar")} مىنۇت`,
+    yFormatter: (v: number) => v.toLocaleString("en-US"),
+    valueFormatter: (v: number) => `${v.toLocaleString("en-US")} مىنۇت`,
     animate: true,
   };
   return (
@@ -262,8 +262,8 @@ export default function NotebookSections({
             <h2>تۆت كىچىك ياخشى ئىش</h2>
           </div>
           <span className="challenge-count">
-            {done.filter((x) => x >= 0 && x < 4).length.toLocaleString("ar")} /
-            ٤
+            {done.filter((x) => x >= 0 && x < 4).length.toLocaleString("en-US")} /
+            4
           </span>
         </div>
         <Progress

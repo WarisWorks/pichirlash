@@ -1,0 +1,224 @@
+.spell-panel {
+  --spell-ink: #485c3b;
+  --spell-muted: #78846d;
+  --spell-line: #d4d6c2;
+  --spell-paper: #fffdf5;
+  --spell-ok: #5f8443;
+  --spell-ok-bg: #e9f0dc;
+  --spell-bad: #a35d43;
+  --spell-bad-bg: #f7e8df;
+}
+.spell-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  color: var(--spell-muted);
+}
+.spell-stats strong {
+  color: var(--spell-ink);
+}
+.spell-card {
+  max-width: 640px;
+  background: var(--spell-paper);
+  border: 1px solid var(--spell-line);
+  border-radius: 10px;
+  padding: 22px 24px 24px;
+  box-shadow: 0 3px 0 #e6e4d4;
+  animation: spell-in 0.25s ease both;
+}
+.spell-progress {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+.spell-progress span {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: #e5e6d8;
+}
+.spell-progress .now {
+  background: #c9d2b4;
+}
+.spell-progress .ok {
+  background: var(--spell-ok);
+}
+.spell-progress .bad {
+  background: var(--spell-bad);
+}
+.play-panel .spell-clue {
+  font-size: 24px;
+  line-height: 1.7;
+  margin: 10px 0 4px;
+  outline: none;
+}
+.spell-ask {
+  color: var(--spell-muted);
+  margin: 0 0 14px;
+}
+.spell-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+}
+.spell-options button {
+  font-family: "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
+  font-size: 30px;
+  line-height: 1.5;
+  min-height: 64px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--spell-ink);
+  background: #fff;
+  border: 1.5px solid var(--spell-line);
+  border-radius: 9px;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+.spell-options button:hover:not([aria-disabled="true"]) {
+  transform: translateY(-2px);
+  border-color: var(--spell-ink);
+}
+.spell-options button:focus-visible {
+  outline: 2px solid var(--spell-ink);
+  outline-offset: 2px;
+}
+.spell-options button[aria-disabled="true"] {
+  cursor: default;
+}
+.spell-options button.right {
+  background: var(--spell-ok-bg);
+  border-color: var(--spell-ok);
+  color: var(--spell-ok);
+}
+.spell-options button.wrong {
+  background: var(--spell-bad-bg);
+  border-color: var(--spell-bad);
+  color: var(--spell-bad);
+}
+.spell-options button.dim {
+  opacity: 0.55;
+}
+.spell-feedback {
+  min-height: 30px;
+  margin: 14px 0;
+}
+.spell-feedback p {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  line-height: 1.9;
+}
+.spell-feedback .ok {
+  background: var(--spell-ok-bg);
+  color: #4c6a36;
+}
+.spell-feedback .bad {
+  background: var(--spell-bad-bg);
+  color: #8a4d37;
+}
+.spell-result {
+  text-align: center;
+}
+.spell-result h3 {
+  font-size: 34px;
+  outline: none;
+}
+.spell-result .editor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 16px 0;
+}
+.spell-review {
+  text-align: start;
+  margin-top: 18px;
+  border-top: 1px dashed var(--spell-line);
+  padding-top: 12px;
+}
+.spell-review h4 {
+  font-size: 19px;
+  font-weight: 500;
+  margin: 0 0 10px;
+  color: var(--spell-ink);
+}
+.spell-review ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+.spell-review li {
+  background: #fbfaf1;
+  border: 1px solid #e6e6d6;
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+.spell-review p {
+  margin: 4px 0;
+  line-height: 1.8;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+}
+.spell-review-clue {
+  color: var(--spell-ink);
+}
+.spell-chosen {
+  color: var(--spell-bad);
+}
+.spell-correct {
+  color: var(--spell-ok);
+}
+.spell-correct strong,
+.spell-chosen s {
+  font-family: "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
+  font-size: 22px;
+}
+.spell-explain {
+  font-size: 14px;
+  color: var(--spell-muted);
+}
+@keyframes spell-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@media (max-width: 480px) {
+  .spell-card {
+    padding: 16px 14px 18px;
+  }
+  .play-panel .spell-clue {
+    font-size: 20px;
+  }
+  .spell-options {
+    grid-template-columns: 1fr;
+  }
+  .spell-options button {
+    font-size: 26px;
+    min-height: 56px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spell-card {
+    animation: none;
+  }
+  .spell-options button {
+    transition: none;
+  }
+  .spell-options button:hover:not([aria-disabled="true"]) {
+    transform: none;
+  }
+}

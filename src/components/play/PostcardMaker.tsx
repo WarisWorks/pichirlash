@@ -8,6 +8,7 @@ import { colors, isRecord, localDay } from "./model";
 import { useLocal } from "./useLocal";
 import type { CardContent } from "./PoetryPlayground";
 import { StorageNotice } from "./Experience";
+import ShareLinkButton from "@/components/features/ShareLinkButton";
 type Card = CardContent & {
   font: "UKIJ Qolyazma" | "Noto Naskh Arabic";
   size: number;
@@ -172,7 +173,7 @@ export default function PostcardMaker({
             />
           </label>
           <p className="local-hint">
-            {card.text.length.toLocaleString("ar")} / ٢٨٠
+            {card.text.length.toLocaleString("en-US")} / 280
           </p>
           <label className="field">
             يېزىق
@@ -246,6 +247,16 @@ export default function PostcardMaker({
           <p className="local-hint">
             كارتىڭىز تورغا يوللانمايدۇ. رەسىمنى چۈشۈرۈپ ساقلىيالايسىز.
           </p>
+          <ShareLinkButton
+            disabled={!card.text.trim()}
+            item={() => ({
+              kind: "postcard",
+              title: card.title,
+              text: card.text,
+              color: card.color,
+              art: card.art,
+            })}
+          />
         </form>
         <div
           ref={viewport}

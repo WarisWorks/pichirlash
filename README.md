@@ -41,6 +41,28 @@ Additional features:
 - Responsive RTL layouts, keyboard controls, and reduced-motion support.
 - An icon-only footer for Instagram, X, YouTube, Idirak, and Ko-fi, with accessible link labels.
 
+## Language, culture and family features
+
+| Feature | Where | Behavior |
+| --- | --- | --- |
+| Script switcher | Mood menu, reading room | Shows stories, proverbs and shared items in Arabic script (UEY), Latin (ULY) or Cyrillic (USY). Conversion handles digraphs, hamza, `n'g` and я/ю, and is computed on the device. |
+| Uyghur keyboard | Floating button, every page | On-screen letters for any text field, a Latin→Uyghur typing box, and an optional standard Uyghur layout for a physical keyboard (f = ا, j = ق, / = ئ…). |
+| Tap-a-word dictionary | Reading room → «سۆز لۇغىتى» | Tap a word to see its root, each suffix (case, possessive, plural, tense…) and a Uyghur/English meaning; save it to a word notebook with flashcard review in the language desk. |
+| Spelling practice | Playground | 43 questions on ې/ى, ۆ/ۈ, ۇ/و and hamza; rounds of 8 with explanations and a mistakes review. |
+| Proverb of the day | Home page | A daily traditional proverb with its meaning and a reflection prompt; answers are saved. |
+| Seasonal themes | Mood menu | Nawruz spring, harvest autumn and winter night desk themes; Nawruz is suggested in the week of 21 March. |
+| Calligraphy tracing | Playground | Trace all 32 letters over the UKIJ Qolyazma guide, see positional forms, and get a coverage score. |
+| Rhyme & meter helper | Poetry playground | Syllable count per line and coloured matching rhyme endings. |
+| Fill-in stories | Playground | Five story templates with typed blanks and suggestion chips; finished stories are saved. |
+| Family voice notes | Playground, reading room | Record elders with the microphone; recordings stay on the device in IndexedDB and can be attached to a reading page, renamed or downloaded. |
+| Family recipe cards | Playground | Lagman, polo and samsa starters, saved cards, and 1200 × 1600 PNG export. |
+| Share links | Poems, postcards, recipes | Content is encoded in the link's `#share=` fragment, so nothing is sent to a server; opening the link shows the item. |
+| Reading streaks & tree | Word garden | Reading most of a page counts the day; shows current and longest streaks and a tree that grows with reading days this year. |
+| Read aloud | Reading room | Uses a Uyghur system voice when available, otherwise reads the Latin-script text with a close (Turkish) voice, highlighting each word. |
+| Offline & install | Whole app | The production build generates a service worker caching every file, plus a web manifest and icons; the browser's install button appears when supported. |
+
+All numbers use Western digits (0–9), as in everyday Uyghur writing.
+
 ## Classic letters
 
 The letter corner offers ivory, botanical, midnight-gold, and Silk Road stationery, with decorative borders, handwritten UKIJ Qolyazma text, a signature, date, and wax seal. Wording templates cover gratitude, friendship, family, a future self, and formal thanks. Applying a template asks before replacing existing text.

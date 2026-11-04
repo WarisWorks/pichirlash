@@ -7,20 +7,69 @@ import {
   Volume2,
   VolumeX,
   Settings2,
+  Flower2,
+  Wheat,
+  Snowflake,
+  Languages,
 } from "lucide-react";
+import type { UyghurScript } from "@/lib/uyghur/script";
+import { convertScript, scriptDir, scriptNames } from "@/lib/uyghur/script";
 import { useLocal } from "./useLocal";
 import { isRecord } from "./model";
-type Settings = { theme: "morning" | "rain" | "lamp"; sound: boolean };
+const themes = ["morning", "rain", "lamp", "nawruz", "harvest", "winter"] as const;
+type Theme = (typeof themes)[number];
+type Settings = { theme: Theme; sound: boolean; script?: UyghurScript };
 const valid = (v: unknown): v is Settings =>
   isRecord(v) &&
-  ["morning", "rain", "lamp"].includes(String(v.theme)) &&
-  typeof v.sound === "boolean";
+  themes.includes(String(v.theme) as Theme) &&
+  typeof v.sound === "boolean" &&
+  (v.script === undefined || ["uey", "uly", "usy"].includes(String(v.script)));
+/** Nawruz falls on 21 March; suggest the spring theme in the week around it. */
+export function isNawruzWeek(date = new Date()) {
+  return date.getMonth() === 2 && date.getDate() >= 18 && date.getDate() <= 24;
+}
 const ExperienceContext = createContext<{
   settings: Settings;
   change: (v: Settings) => void;
   play: (kind?: "paper" | "pencil") => void;
   error: boolean;
 } | null>(null);
+/** The reader's chosen script, with helpers to convert Arabic-script text. */
+export function useScript() {
+  const context = useContext(ExperienceContext);
+  const script: UyghurScript = context?.settings.script ?? "uey";
+  return {
+    script,
+    dir: scriptDir(script),
+    lang: script === "uey" ? "ug-Arab" : script === "uly" ? "ug-Latn" : "ug-Cyrl",
+    t: (text: string) => convertScript(text, script),
+    setScript: (next: UyghurScript) =>
+      context?.change({ ...context.settings, script: next }),
+  };
+}
+export function ScriptSwitch({ compact = false }: { compact?: boolean }) {
+  const { script, setScript } = useScript();
+  return (
+    <div
+      className={`script-switch ${compact ? "compact" : ""}`}
+      role="group"
+      aria-label="يېزىق تاللاش"
+    >
+      <Languages size={16} aria-hidden="true" />
+      {(Object.keys(scriptNames) as UyghurScript[]).map((id) => (
+        <button
+          key={id}
+          type="button"
+          lang={id === "uey" ? "ug" : id === "uly" ? "ug-Latn" : "ug-Cyrl"}
+          aria-pressed={script === id}
+          onClick={() => setScript(id)}
+        >
+          {compact ? { uey: "ئۇ", uly: "La", usy: "Ки" }[id] : scriptNames[id]}
+        </button>
+      ))}
+    </div>
+  );
+}
 export function ExperienceProvider({ children }: { children: ReactNode }) {
   const {
     value: settings,
@@ -113,6 +162,9 @@ export function DeskSettings() {
               { id: "morning", label: "ئەتىگەن", icon: Sun },
               { id: "rain", label: "يامغۇرلۇق كۈن", icon: CloudRain },
               { id: "lamp", label: "كەچلىك چىراغ", icon: LampDesk },
+              { id: "nawruz", label: "نورۇز باھارى", icon: Flower2 },
+              { id: "harvest", label: "ھوسۇل كۈزى", icon: Wheat },
+              { id: "winter", label: "قىش كېچىسى", icon: Snowflake },
             ] as const
           ).map((t) => (
             <button
@@ -126,6 +178,11 @@ export function DeskSettings() {
             </button>
           ))}
         </div>
+        {isNawruzWeek() && settings.theme !== "nawruz" && (
+          <p className="local-hint">نورۇز مۇبارەك! «نورۇز باھارى» كەيپىياتىنى سىناپ بېقىڭ.</p>
+        )}
+        <p>يېزىق</p>
+        <ScriptSwitch />
         <button
           className="sound-toggle"
           aria-pressed={settings.sound}

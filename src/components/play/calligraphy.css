@@ -1,0 +1,239 @@
+.trace-panel {
+  --trace-ink: #485c3b;
+  --trace-muted: #78846d;
+  --trace-line: #d4d6c2;
+  --trace-paper: #fffdf5;
+  --trace-accent: #c47a4a;
+}
+.trace-count {
+  color: var(--trace-muted);
+  font-size: 16px;
+  margin: 0 0 10px;
+}
+.trace-count strong {
+  color: var(--trace-ink);
+  font-size: 20px;
+}
+.trace-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(54px, 1fr));
+  gap: 7px;
+  margin-bottom: 24px;
+}
+.trace-picker button,
+.trace-forms button {
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 4px 5px;
+  background: var(--trace-paper);
+  border: 1px solid var(--trace-line);
+  border-radius: 7px;
+  color: var(--trace-ink);
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+.trace-picker button:hover,
+.trace-forms button:hover {
+  transform: translateY(-1px);
+  background: #f6f6ea;
+}
+.trace-picker button:focus-visible,
+.trace-forms button:focus-visible {
+  outline: 2px solid var(--trace-ink);
+  outline-offset: 2px;
+}
+.trace-picker button[aria-pressed="true"],
+.trace-forms button[aria-pressed="true"] {
+  background: #e9eedc;
+  border-color: var(--trace-ink);
+  box-shadow: inset 0 -3px 0 var(--trace-ink);
+}
+.trace-picker button.done {
+  border-color: #a9bb8f;
+}
+.trace-picker button.done .trace-pick-name::after {
+  content: " ✓";
+  color: #6f8f50;
+}
+.trace-pick-letter {
+  font-family: "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
+  font-size: 25px;
+  line-height: 1.3;
+}
+.trace-pick-name {
+  font-size: 12px;
+  color: var(--trace-muted);
+}
+.trace-layout {
+  display: grid;
+  grid-template-columns: minmax(200px, 260px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.trace-info {
+  background: var(--trace-paper);
+  border: 1px solid var(--trace-line);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.trace-big {
+  font-family: "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
+  font-size: 84px;
+  line-height: 1.25;
+  text-align: center;
+  color: var(--trace-ink);
+}
+.trace-name,
+.trace-word,
+.trace-note {
+  margin: 0;
+  font-size: 16px;
+  color: var(--trace-muted);
+  line-height: 1.8;
+}
+.trace-name strong,
+.trace-word strong {
+  color: var(--trace-ink);
+  font-size: 22px;
+  font-family: "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
+}
+.trace-word span {
+  font-size: 22px;
+  margin-inline-end: 6px;
+}
+.trace-note {
+  font-size: 14px;
+}
+.trace-forms {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+.trace-forms button {
+  font-size: 12px;
+}
+.trace-form-glyph {
+  font-family: "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
+  font-size: 30px;
+  line-height: 1.4;
+}
+.trace-board {
+  min-width: 0;
+}
+.trace-canvas-wrap {
+  position: relative;
+  width: 100%;
+  border: 1px solid var(--trace-line);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 20% 10%, #fffef9, transparent 60%),
+    var(--trace-paper);
+  box-shadow: 0 2px 0 #e6e4d4;
+  overflow: hidden;
+}
+.trace-canvas {
+  display: block;
+  touch-action: none;
+  cursor: crosshair;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.trace-loading {
+  position: absolute;
+  inset: auto 0 12px;
+  text-align: center;
+  color: var(--trace-muted);
+  font-size: 14px;
+  margin: 0;
+}
+.trace-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.trace-status {
+  min-height: 56px;
+  margin-top: 12px;
+}
+.trace-result {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #f6efe2;
+  color: #7a5a3f;
+  animation: trace-pop 0.3s ease both;
+}
+.trace-result.pass {
+  background: #e9f0dc;
+  color: #4f6a3a;
+}
+.trace-result strong {
+  font-size: 28px;
+  font-family: "Noto Naskh Arabic", serif;
+}
+.trace-result span {
+  line-height: 1.8;
+}
+.trace-help {
+  margin-top: 20px;
+  color: var(--trace-muted);
+  line-height: 1.9;
+}
+.trace-help summary {
+  cursor: pointer;
+  color: var(--trace-ink);
+  font-size: 17px;
+}
+.trace-help p {
+  margin: 8px 0;
+}
+@keyframes trace-pop {
+  from {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+}
+@media (max-width: 760px) {
+  .trace-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .trace-big {
+    font-size: 64px;
+  }
+}
+@media (max-width: 420px) {
+  .trace-picker {
+    grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
+    gap: 5px;
+  }
+  .trace-pick-letter {
+    font-size: 22px;
+  }
+  .trace-actions [data-slot="button"] {
+    flex: 1 1 auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .trace-picker button,
+  .trace-forms button {
+    transition: none;
+  }
+  .trace-picker button:hover,
+  .trace-forms button:hover {
+    transform: none;
+  }
+  .trace-result {
+    animation: none;
+  }
+}

@@ -5,7 +5,13 @@ export type PlayPanel =
   | "story"
   | "letters"
   | "garden"
-  | "postcard";
+  | "postcard"
+  | "language"
+  | "spelling"
+  | "trace"
+  | "fillstory"
+  | "recipes"
+  | "voices";
 export const playPanels: {
   id: PlayPanel;
   title: string;
@@ -47,6 +53,42 @@ export const playPanels: {
     title: "ئەسلىمە كارتىسى",
     description: "گۈزەل سۆزلىرىڭىزنى رەسىمگە ئايلاندۇرۇپ ساقلاڭ.",
     art: "comet",
+  },
+  {
+    id: "language",
+    title: "تىل ئۈستەلى",
+    description: "ئەرەب، لاتىن ۋە كىرىل يېزىقلىرى ئارىسىدا ئالماشتۇرۇڭ؛ سۆزلىرىڭىزنى تەكرارلاڭ.",
+    art: "owl",
+  },
+  {
+    id: "spelling",
+    title: "ئىملا ئويۇنى",
+    description: "ې/ى، ۆ/ۈ، ۇ/و ۋە ھەمزىنى توغرا يېزىشنى مەشىق قىلىڭ.",
+    art: "notebook",
+  },
+  {
+    id: "trace",
+    title: "ھۆسنخەت مەشىقى",
+    description: "ھەرپلەرنى قوليازما خەت نۇسخىسى بويىچە سىزىپ مەشىق قىلىڭ.",
+    art: "teacup",
+  },
+  {
+    id: "fillstory",
+    title: "سۆز تولدۇرۇش ھېكايىسى",
+    description: "بوش ئورۇنلارغا سۆز تاللاڭ، كۈلكىلىك ھېكايە تۇغۇلسۇن.",
+    art: "bunny",
+  },
+  {
+    id: "recipes",
+    title: "ئائىلە تائاملىرى",
+    description: "مومىڭىزنىڭ لەغمەن، پولۇ ۋە سامسا رېتسېپىنى كارتا قىلىڭ.",
+    art: "cherries",
+  },
+  {
+    id: "voices",
+    title: "ئائىلە ئاۋازلىرى",
+    description: "چوڭلارنىڭ ھېكايە ۋە ئەسلىمىلىرىنى ئاۋاز بىلەن ساقلاڭ.",
+    art: "smiley",
   },
 ];
 export default function PlayPreview({
