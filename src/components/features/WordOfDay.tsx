@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { dictionary } from "@/lib/uyghur/dictionary";
 import { convertScript } from "@/lib/uyghur/script";
 import { localDay } from "@/components/play/model";
-import { useLocal } from "@/components/play/useLocal";
+import { loadLocal, useLocal } from "@/components/play/useLocal";
 import { WORDS_KEY, addWord, validWords } from "./wordStore";
 import type { SavedWord } from "./wordStore";
 
@@ -38,7 +38,18 @@ export default function WordOfDay() {
         variant="outline"
         disabled={saved}
         onClick={() =>
-          setWords(addWord(words, { word, root: word, ug: entry.ug, en: entry.en, day, known: 0 }))
+          // The home page stays mounted while hidden, so start from the latest
+          // saved list rather than the copy loaded when this card mounted.
+          setWords(
+            addWord(loadLocal(WORDS_KEY, [], validWords), {
+              word,
+              root: word,
+              ug: entry.ug,
+              en: entry.en,
+              day,
+              known: 0,
+            }),
+          )
         }
       >
         {saved ? <Check size={15} /> : <BookmarkPlus size={15} />}

@@ -41,21 +41,38 @@ export function parseBackup(text: string): Backup | null {
   }
 }
 
-/** Write a backup into storage. "replace" first removes keys the backup does not contain. */
+/**
+ * Write a backup into storage. "replace" first removes keys the backup does not contain.
+ * If a write fails (for example the storage quota is full), every Pichirlash key is put
+ * back exactly as it was and the error is rethrown, so a failed restore loses nothing.
+ */
 export function restoreBackup(
-  storage: Pick<Storage, "length" | "key" | "setItem" | "removeItem">,
+  storage: Pick<Storage, "length" | "key" | "getItem" | "setItem" | "removeItem">,
   backup: Backup,
   mode: "replace" | "merge",
 ) {
-  if (mode === "replace") {
-    const existing: string[] = [];
+  const pichirlashKeys = () => {
+    const keys: string[] = [];
     for (let i = 0; i < storage.length; i++) {
       const key = storage.key(i);
-      if (key?.startsWith(BACKUP_PREFIX) && !(key in backup.data)) existing.push(key);
+      if (key?.startsWith(BACKUP_PREFIX)) keys.push(key);
     }
-    existing.forEach((k) => storage.removeItem(k));
+    return keys;
+  };
+  const snapshot = new Map<string, string>();
+  for (const key of pichirlashKeys()) {
+    const value = storage.getItem(key);
+    if (value !== null) snapshot.set(key, value);
   }
-  for (const [key, value] of Object.entries(backup.data)) storage.setItem(key, value);
+  try {
+    if (mode === "replace")
+      for (const key of snapshot.keys()) if (!(key in backup.data)) storage.removeItem(key);
+    for (const [key, value] of Object.entries(backup.data)) storage.setItem(key, value);
+  } catch (error) {
+    for (const key of pichirlashKeys()) if (!snapshot.has(key)) storage.removeItem(key);
+    for (const [key, value] of snapshot) storage.setItem(key, value);
+    throw error;
+  }
   return Object.keys(backup.data).length;
 }
 

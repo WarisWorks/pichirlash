@@ -43,3 +43,26 @@ test("merge keeps other keys; replace removes Pichirlash keys not in the backup"
   restoreBackup(replaced, backup, "replace");
   assert.deepEqual([...replaced.map.keys()].sort(), ["other", "pichirlash-a"]);
 });
+
+test("a restore that fails part-way puts the previous data back", () => {
+  const s = memoryStorage({ "pichirlash-diary": "1", "pichirlash-poems": "2", other: "3" });
+  let writes = 0;
+  const setItem = s.setItem;
+  s.setItem = (k, v) => {
+    if (++writes === 2) throw new Error("QuotaExceededError");
+    setItem(k, v);
+  };
+  const backup = {
+    app: "pichirlash",
+    version: 1,
+    created: "x",
+    data: { "pichirlash-new": "4", "pichirlash-big": "5", "pichirlash-more": "6" },
+  };
+  assert.throws(() => restoreBackup(s, backup, "replace"), /Quota/);
+  s.setItem = setItem;
+  assert.deepEqual(Object.fromEntries([...s.map].sort()), {
+    other: "3",
+    "pichirlash-diary": "1",
+    "pichirlash-poems": "2",
+  });
+});
