@@ -629,3 +629,142 @@ button.reading-word[aria-pressed="true"] {
     font-size: 17px;
   }
 }
+
+/* Backup & restore */
+.backup-panel {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed #d4d6c2;
+}
+.backup-panel > p:first-child {
+  font-size: 17px;
+  margin: 0 0 10px;
+}
+.backup-actions,
+.backup-confirm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.backup-actions button,
+.backup-confirm button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f2f2e9;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 13px;
+}
+.backup-confirm {
+  margin-top: 10px;
+  padding: 10px;
+  background: #fff4c7;
+  border-radius: 6px;
+  align-items: center;
+}
+.backup-confirm span {
+  width: 100%;
+  font-size: 13px;
+}
+.settings-panel {
+  max-height: min(80vh, 640px);
+  overflow: auto;
+}
+
+/* Grouped playground navigation */
+.play-groups {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 18px 24px 4px;
+}
+.play-groups button {
+  padding: 9px 18px;
+  border-radius: 20px;
+  background: #f2f2e9;
+  border: 1px solid #d4d6c2;
+  font-size: 16px;
+}
+.play-groups button[aria-pressed="true"] {
+  background: #617453;
+  border-color: #617453;
+  color: #fffdf4;
+}
+.play-preview-group + .play-preview-group {
+  margin-top: 26px;
+}
+.play-preview-group h3 {
+  margin: 20px 0 0;
+  font-size: 19px;
+  color: #5f6b52;
+}
+@media (max-width: 650px) {
+  .play-groups {
+    padding: 14px 15px 2px;
+    justify-content: start;
+    gap: 6px;
+  }
+  .play-groups button {
+    padding: 7px 12px;
+    font-size: 14px;
+  }
+}
+
+/* Daily cards: proverb + word of the day */
+.daily-cards {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr);
+  gap: 20px;
+  max-width: 1040px;
+  margin: 10px auto 30px;
+  padding: 0 24px;
+  align-items: start;
+}
+.daily-cards .proverb-card {
+  margin: 0;
+  max-width: none;
+}
+.word-of-day {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  text-align: center;
+  padding: 24px 18px;
+  background: #fff6cf;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px #39422c14;
+  transform: rotate(1deg);
+}
+.word-of-day strong {
+  font-family: "UKIJ Qolyazma", serif;
+  font-size: 40px;
+  line-height: 1.4;
+}
+.wod-scripts,
+.wod-en {
+  color: #78846d;
+  font-size: 14px;
+  margin: 0;
+}
+.word-of-day p {
+  margin: 0;
+}
+.word-of-day em {
+  font-style: normal;
+  font-size: 12px;
+  color: #fff;
+  background: #8ea27a;
+  padding: 1px 7px;
+  border-radius: 10px;
+}
+@media (max-width: 760px) {
+  .daily-cards {
+    grid-template-columns: 1fr;
+    padding: 0 16px;
+  }
+  .word-of-day {
+    transform: none;
+  }
+}

@@ -34,6 +34,7 @@ import "./play.css";
 import "./features.css";
 import UyghurKeyboard from "./components/features/UyghurKeyboard";
 import ProverbCard from "./components/features/ProverbCard";
+import WordOfDay from "./components/features/WordOfDay";
 import SharedViewer from "./components/features/SharedViewer";
 import InstallButton from "./components/features/InstallButton";
 import { readShareHash } from "./lib/uyghur/share";
@@ -482,7 +483,10 @@ function App() {
                 <span className="art-dots">···</span>
               </div>
             </section>
-            <ProverbCard onReward={reward} />
+            <div className="daily-cards">
+              <ProverbCard onReward={reward} />
+              <WordOfDay />
+            </div>
             <PlayPreview onOpen={openPlay} />
             <SurpriseEnvelope onCreate={() => openPlay("poetry")} />
             {lastRead.id &&
