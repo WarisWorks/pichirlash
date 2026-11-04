@@ -2,6 +2,10 @@
 
 A cozy Uyghur reading and creative playground. React 19, TypeScript, Vite, Tailwind CSS 4, Lucide, and real Looseleaf registry components and artwork. The entire experience is a frontend demo; no accounts, server, or environment variables are required.
 
+## Typeface
+
+Uyghur text uses the **Karton** typeface (`public/fonts/Karton-Regular.woff2`), with UKIJ Qolyazma and Noto Naskh Arabic as fallbacks. Postcards, letters, recipe cards and the family tree embed Karton in exported images. Calligraphy tracing keeps UKIJ Qolyazma as its handwriting model, and postcards can still choose UKIJ Qolyazma or Noto Naskh Arabic. Karton has no Cyrillic letters, so Cyrillic-script text falls back to another font.
+
 ## Run and verify
 
 Use Node.js 24 and npm:

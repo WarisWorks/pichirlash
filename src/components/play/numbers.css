@@ -105,7 +105,7 @@
 }
 .num-words {
   display: block;
-  font-family: "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
+  font-family: "Karton", "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
   font-size: 28px;
   line-height: 1.7;
   color: var(--num-ink);
@@ -185,7 +185,7 @@
   grid-template-columns: 1fr;
 }
 .num-options button {
-  font-family: "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
+  font-family: "Karton", "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
   font-size: 21px;
   line-height: 1.6;
   min-height: 56px;

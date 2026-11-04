@@ -105,7 +105,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
+  font-family: "Karton", "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
   font-size: clamp(15px, 3.4vw, 24px);
   line-height: 1;
   color: var(--ws-ink);
@@ -171,7 +171,7 @@
   border-radius: 8px;
 }
 .ws-word {
-  font-family: "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
+  font-family: "Karton", "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
   font-size: 21px;
   line-height: 1.5;
   color: var(--ws-ink);

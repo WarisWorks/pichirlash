@@ -140,7 +140,7 @@ export default function LetterCorner({
     let cancelled = false;
     const timer = setTimeout(() => {
       void document.fonts
-        .load('24px "UKIJ Qolyazma"')
+        .load('24px "Karton"')
         .then(() => {
           if (cancelled || !measure.current) return;
           const el = measure.current;
@@ -223,7 +223,7 @@ export default function LetterCorner({
     setBusy(true);
     setStatus("خېتىڭىزنىڭ رەسىمى تەييارلىنىۋاتىدۇ…");
     try {
-      await document.fonts.load('24px "UKIJ Qolyazma"');
+      await document.fonts.load('24px "Karton"');
       const fontEmbedCSS = await exportFontCSS();
       const blobs: Blob[] = [];
       for (let index = 0; index < pages.length; index++) {
@@ -270,7 +270,7 @@ export default function LetterCorner({
       setStatus("رەسىم تەييار. چۈشۈرەلەيسىز ياكى ھەمبەھىرلىيەلەيسىز.");
       return blobs;
     } catch (reason) {
-      forgetFontCSS("UKIJ Qolyazma");
+      forgetFontCSS("Karton");
       if (token === generation.current)
         setStatus(
           reason instanceof Error && reason.message === "headers-too-long"

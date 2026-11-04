@@ -215,11 +215,11 @@ export default function RecipeCards({
     setStatus("رەسىم تەييارلىنىۋاتىدۇ…");
     try {
       await Promise.all([
-        document.fonts.load(`40px "UKIJ Qolyazma"`),
+        document.fonts.load(`40px "Karton"`),
         document.fonts.load(`${fitSize}px "Noto Naskh Arabic"`),
       ]);
       const css =
-        (await exportFontCSS("UKIJ Qolyazma")) +
+        (await exportFontCSS("Karton")) +
         (await exportFontCSS("Noto Naskh Arabic"));
       const blob = await toBlob(design.current, {
         width: CARD_W,
@@ -246,7 +246,7 @@ export default function RecipeCards({
       setStatus(
         "رەسىم تەييارلاش مۇۋەپپەقىيەتلىك بولمىدى. قايتا سىناڭ؛ يېزىقلىرىڭىز يوقالمىدى.",
       );
-      forgetFontCSS("UKIJ Qolyazma");
+      forgetFontCSS("Karton");
       forgetFontCSS("Noto Naskh Arabic");
     } finally {
       setBusy(false);

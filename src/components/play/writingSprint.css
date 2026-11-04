@@ -80,7 +80,7 @@
   margin: 0;
 }
 .wsprint-prompt {
-  font-family: "UKIJ Qolyazma", serif;
+  font-family: "Karton", "UKIJ Qolyazma", serif;
   font-size: 21px;
   line-height: 1.9;
   color: #6a4b34;
@@ -239,7 +239,7 @@
   min-height: 55vh;
   resize: vertical;
   font: inherit;
-  font-family: "Noto Naskh Arabic", "UKIJ Qolyazma", serif;
+  font-family: "Noto Naskh Arabic", "Karton", "UKIJ Qolyazma", serif;
   font-size: 21px;
   line-height: 2.1;
   color: #2f3a2b;

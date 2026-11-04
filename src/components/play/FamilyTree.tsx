@@ -298,11 +298,11 @@ export default function FamilyTree({
     setStatus("رەسىم تەييارلىنىۋاتىدۇ…");
     try {
       await Promise.all([
-        document.fonts.load(`28px "UKIJ Qolyazma"`),
+        document.fonts.load(`28px "Karton"`),
         document.fonts.load(`16px "Noto Naskh Arabic"`),
       ]);
       const css =
-        (await exportFontCSS("UKIJ Qolyazma")) + (await exportFontCSS("Noto Naskh Arabic"));
+        (await exportFontCSS("Karton")) + (await exportFontCSS("Noto Naskh Arabic"));
       const el = tree.current;
       const blob = await toBlob(el, {
         width: el.offsetWidth,
@@ -323,7 +323,7 @@ export default function FamilyTree({
       setStatus("رەسىم تەييار بولدى. چۈشۈرۈش باشلاندى.");
     } catch {
       setStatus("رەسىم تەييارلاش مۇۋەپپەقىيەتلىك بولمىدى. قايتا سىناڭ.");
-      forgetFontCSS("UKIJ Qolyazma");
+      forgetFontCSS("Karton");
       forgetFontCSS("Noto Naskh Arabic");
     } finally {
       setBusy(false);

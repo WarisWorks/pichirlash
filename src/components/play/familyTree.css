@@ -88,7 +88,7 @@
   border-radius: 8px;
   padding: 18px 14px 12px;
   color: #3f4a33;
-  font-family: "Noto Naskh Arabic", "UKIJ Qolyazma", serif;
+  font-family: "Noto Naskh Arabic", "Karton", "UKIJ Qolyazma", serif;
   overflow: hidden;
 }
 .ftree-lines {
@@ -106,7 +106,7 @@
 }
 .ftree-title {
   text-align: center;
-  font-family: "UKIJ Qolyazma", serif;
+  font-family: "Karton", "UKIJ Qolyazma", serif;
   font-size: 28px;
   margin: 0 0 6px;
   color: #5e6e44;
@@ -162,7 +162,7 @@
   line-height: 1.5;
 }
 .ftree-card-term {
-  font-family: "UKIJ Qolyazma", serif;
+  font-family: "Karton", "UKIJ Qolyazma", serif;
   font-size: 20px;
   color: #8a5a3c;
   line-height: 1.4;
@@ -245,7 +245,7 @@
   gap: 4px 12px;
 }
 .ftree-term-word strong {
-  font-family: "UKIJ Qolyazma", serif;
+  font-family: "Karton", "UKIJ Qolyazma", serif;
   font-size: 30px;
   font-weight: 400;
   color: #8a5a3c;
