@@ -172,7 +172,7 @@ export default function PostcardMaker({
             />
           </label>
           <p className="local-hint">
-            {card.text.length.toLocaleString("ar")} / ٢٨٠
+            {card.text.length.toLocaleString("en-US")} / 280
           </p>
           <label className="field">
             يېزىق

@@ -106,7 +106,7 @@ export default function PoetryPlayground({
     [status, setStatus] = useState("");
   const add = (word: string) => {
     if (poem.words.length >= 60) {
-      setStatus("بىر شېئىرغا ئەڭ كۆپ ٦٠ سۆز قوشالايسىز.");
+      setStatus("بىر شېئىرغا ئەڭ كۆپ 60 سۆز قوشالايسىز.");
       return;
     }
     setPoem((v) => ({ ...v, words: [...v.words, word] }));
@@ -290,7 +290,7 @@ export default function PoetryPlayground({
             </div>
           </div>
           <div className="poem-tools">
-            <span>{poem.words.length.toLocaleString("ar")} / ٦٠</span>
+            <span>{poem.words.length.toLocaleString("en-US")} / 60</span>
             <Button
               variant="ghost"
               disabled={selected <= 0}

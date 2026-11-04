@@ -130,7 +130,7 @@ export default function ClassicLetterPaper({
         <Flourish kind={design.id} />
         {count > 1 && (
           <span>
-            {(page + 1).toLocaleString("ar")} / {count.toLocaleString("ar")}
+            {(page + 1).toLocaleString("en-US")} / {count.toLocaleString("en-US")}
           </span>
         )}
       </footer>

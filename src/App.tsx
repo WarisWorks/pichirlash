@@ -301,7 +301,7 @@ function App() {
             aria-label="ساقلىغانلىرىم"
           >
             <Heart size={20} />
-            <span>{saved.length.toLocaleString("ar")}</span>
+            <span>{saved.length.toLocaleString("en-US")}</span>
           </button>
         </header>
         <nav className="demo-nav" aria-label="باش يولباشچى">
@@ -587,7 +587,7 @@ function App() {
                           {labels[e.type]}
                         </span>
                         <span className="entry-number">
-                          {(i + 1).toLocaleString("ar")}
+                          {(i + 1).toLocaleString("en-US")}
                         </span>
                       </div>
                       <button

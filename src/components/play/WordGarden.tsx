@@ -38,11 +38,11 @@ export default function WordGarden({
       </div>
       <div className="garden-summary">
         <span>
-          <strong>{garden.rewards.length.toLocaleString("ar")}</strong> كىچىك
+          <strong>{garden.rewards.length.toLocaleString("en-US")}</strong> كىچىك
           ياخشى ئىش
         </span>
         <span>
-          <strong>{garden.watered.length.toLocaleString("ar")}</strong> قېتىم سۇ
+          <strong>{garden.watered.length.toLocaleString("en-US")}</strong> قېتىم سۇ
           بېرىش
         </span>
         <p>ئالدىرىماڭ. ھەر بىر كىچىك قەدەم قەدىرلىك.</p>

@@ -43,7 +43,7 @@ export default function CreativeDesk({
     );
   const add = (type: DeskItem["type"], art = "", text = "") => {
     if (items.length >= 30) {
-      setStatus("ئۈستەلدە ٣٠ پارچە نەرسە بار. بىرىنى ئۆچۈرۈپ ئورۇن بوشىتىڭ.");
+      setStatus("ئۈستەلدە 30 پارچە نەرسە بار. بىرىنى ئۆچۈرۈپ ئورۇن بوشىتىڭ.");
       return;
     }
     const next: DeskItem = {

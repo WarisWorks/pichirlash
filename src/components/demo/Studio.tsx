@@ -13,7 +13,7 @@ const blank = (art?: Decoration, type: Entry["type"] = "poem"): DemoEntry => ({
   excerpt: "",
   type,
   color: "pink",
-  time: "١ مىنۇت",
+  time: "1 مىنۇت",
   draft: true,
   art,
 });
@@ -45,7 +45,7 @@ export default function Studio({
       body: edit.body.trim(),
       excerpt: edit.excerpt.trim() || edit.body.slice(0, 95),
       draft,
-      time: `${Math.max(1, Math.ceil(edit.body.length / 600)).toLocaleString("ar")} مىنۇت`,
+      time: `${Math.max(1, Math.ceil(edit.body.length / 600)).toLocaleString("en-US")} مىنۇت`,
     };
     onChange([item, ...items.filter((x) => x.id !== edit.id)]);
     setEdit(null);
@@ -80,18 +80,18 @@ export default function Studio({
       )}
       <div className="studio-stats">
         <span>
-          بارلىق يازمىلار <strong>{items.length.toLocaleString("ar")}</strong>
+          بارلىق يازمىلار <strong>{items.length.toLocaleString("en-US")}</strong>
         </span>
         <span>
           لايىھەلەر{" "}
           <strong>
-            {items.filter((x) => x.draft).length.toLocaleString("ar")}
+            {items.filter((x) => x.draft).length.toLocaleString("en-US")}
           </strong>
         </span>
         <span>
           كۆرسىتىلگەن{" "}
           <strong>
-            {items.filter((x) => !x.draft).length.toLocaleString("ar")}
+            {items.filter((x) => !x.draft).length.toLocaleString("en-US")}
           </strong>
         </span>
       </div>
@@ -173,7 +173,7 @@ export default function Studio({
               />
             </label>
             <p className="privacy-note">
-              {edit.body.length.toLocaleString("ar")} / ١٠٬٠٠٠
+              {edit.body.length.toLocaleString("en-US")} / 10,000
             </p>
             <div className="editor-actions">
               <Button type="submit">

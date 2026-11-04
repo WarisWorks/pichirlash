@@ -165,7 +165,7 @@ export default function ReadingRoom({
         <Bookmark size={15} />
         <span>
           ئوقۇغان ئورنىڭىز ئاپتوماتىك ساقلىنىدۇ.{" "}
-          {Math.round(progress * 100).toLocaleString("ar")}٪
+          {Math.round(progress * 100).toLocaleString("en-US")}%
         </span>
       </div>
       <div className="editor-actions">
