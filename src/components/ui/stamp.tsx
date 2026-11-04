@@ -5,6 +5,7 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import { useEnsureInkDefs } from "@/lib/ink/react"
 import { stickers } from "@/lib/ink/art/stickers"
+import { artRegion, localizeGrainMasks, stableId } from "@/lib/ink/local-grain"
 import { memo, stamp } from "@/lib/ink/art-draw"
 import type { StampGen, StickerDef } from "@/lib/ink/art/types"
 
@@ -61,7 +62,12 @@ function Stamp({
     wear: p?.wear,
     seed: seed ?? name ?? t,
   }
-  const res = memo(`stamp|${t}|${sh}|${JSON.stringify(opts)}`, () => stamp(t, sh, opts))
+  const key = `stamp|${t}|${sh}|${JSON.stringify(opts)}`
+  const res = memo(key, () => {
+    const r = stamp(t, sh, opts)
+    // Keep grain masks the size of the stamp, not 8192 px (see local-grain.ts).
+    return { ...r, svg: localizeGrainMasks(r.svg, artRegion(r.w, r.h), `ll-s${stableId(key)}`) }
+  })
   return (
     <svg
       data-slot="stamp"

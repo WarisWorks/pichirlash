@@ -7,6 +7,7 @@ import { useEnsureInkDefs } from "@/lib/ink/react"
 import { mascot, mascotProps, type MascotPose } from "@/lib/ink/art/mascots"
 import { drawMascot } from "@/lib/ink/art/mascot-draw"
 import { memo } from "@/lib/ink/art-draw"
+import { artRegion, localizeGrainMasks } from "@/lib/ink/local-grain"
 import type { ArtDef } from "@/lib/ink/art/types"
 
 const frames = mascotProps.frames as Record<string, ArtDef>
@@ -37,7 +38,11 @@ function Mascot({
   const def = flip ?? (mascot as Record<string, ArtDef>)[pose]
   if (!def) return null
   const px = Math.max(16, Math.round(size))
-  const res = memo(`mascot|${pose}|${flip ? frame : ""}|${px}|${tier}|${seed ?? ""}|${uid}`, () => drawMascot(def, px, seed ?? pose, { tier, idPrefix: `ll-${uid}` }), 240)
+  const res = memo(`mascot|${pose}|${flip ? frame : ""}|${px}|${tier}|${seed ?? ""}|${uid}`, () => {
+    const r = drawMascot(def, px, seed ?? pose, { tier, idPrefix: `ll-${uid}` })
+    // Keep each mascot's grain mask the size of the mascot, not 8192 px (see local-grain.ts).
+    return { ...r, svg: localizeGrainMasks(r.svg, artRegion(r.w, r.h), `ll-${uid}-g`) }
+  }, 240)
   return (
     <svg
       data-slot="mascot"

@@ -7,6 +7,7 @@ import { useEnsureInkDefs } from "@/lib/ink/react"
 import { stickers, type StickerName } from "@/lib/ink/art/stickers"
 import { memo, renderSticker } from "@/lib/ink/art-draw"
 import { hashSeed } from "@/lib/ink/rng"
+import { artRegion, localizeGrainMasks } from "@/lib/ink/local-grain"
 import type { StickerDef } from "@/lib/ink/art/types"
 
 const autoTilt = (seed: string): number => ((hashSeed(seed) % 640) - 320) / 100
@@ -39,7 +40,11 @@ function Sticker({
   if (!def) return null
   const px = Math.max(32, Math.round(size))
   const s = `${seed ?? name}`
-  const res = memo(`sticker|${name}|${px}|${peel}|${border ?? ""}|${s}|${uid}`, () => renderSticker(def, px, s, { peel: peel === false ? undefined : peel, border, idPrefix: `ll-${uid}` }), 120)
+  const res = memo(`sticker|${name}|${px}|${peel}|${border ?? ""}|${s}|${uid}`, () => {
+    const r = renderSticker(def, px, s, { peel: peel === false ? undefined : peel, border, idPrefix: `ll-${uid}` })
+    // Keep each sticker's grain mask the size of the sticker, not 8192 px (see local-grain.ts).
+    return { ...r, svg: localizeGrainMasks(r.svg, artRegion(r.w, r.h), `ll-${uid}-g`) }
+  }, 120)
   const tilt = rotate === "auto" ? autoTilt(s) : rotate
   return (
     <svg
