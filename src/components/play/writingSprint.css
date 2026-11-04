@@ -1,0 +1,340 @@
+.wsprint-setup,
+.wsprint-desk,
+.wsprint-saved > ul > li {
+  background: #fffdf5;
+  border: 1px solid #d5dac4;
+  border-radius: 8px;
+}
+.wsprint-setup {
+  padding: 20px;
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+.wsprint-choice {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  max-width: 100%;
+}
+.wsprint-choice legend {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+.wsprint-choice > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.wsprint-choice label {
+  padding: 4px 16px;
+  border: 1px solid #d5dac4;
+  border-radius: 999px;
+  background: #f8f7ee;
+  cursor: pointer;
+  font-size: 16px;
+}
+.wsprint-choice label.on {
+  background: #e4ebd8;
+  border-color: #7b8f5c;
+  color: #3f5130;
+  box-shadow: inset 0 0 0 1px #7b8f5c;
+}
+.wsprint-choice label:has(input:focus-visible),
+.wsprint-toggle:has(input:focus-visible) {
+  outline: 3px solid #6d7d4f;
+  outline-offset: 2px;
+}
+.wsprint-choice label.wsprint-goal-input {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  cursor: default;
+}
+.wsprint-goal-input input {
+  width: 5.5em;
+  font: inherit;
+  background: #fff;
+  border: 1px solid #ccd2ba;
+  border-radius: 5px;
+  padding: 2px 6px;
+  text-align: center;
+}
+.wsprint-goal-input input:focus {
+  outline: 2px solid #a3b08e;
+}
+.wsprint-prompt-box {
+  width: 100%;
+  border-right: 4px solid #c9a98a;
+  background: #fbf6e6;
+  border-radius: 6px;
+  padding: 10px 14px;
+}
+.wsprint-label {
+  font-size: 13px;
+  color: #8a9174;
+  margin: 0;
+}
+.wsprint-prompt {
+  font-family: "UKIJ Qolyazma", serif;
+  font-size: 21px;
+  line-height: 1.9;
+  color: #6a4b34;
+  margin: 2px 0 4px;
+}
+.wsprint-toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.wsprint-toggle input {
+  width: 20px;
+  height: 20px;
+  margin-top: 6px;
+  accent-color: #7b8f5c;
+  flex-shrink: 0;
+}
+.wsprint-toggle span {
+  display: flex;
+  flex-direction: column;
+}
+.wsprint-toggle small {
+  font-size: 14px;
+  color: #7f876e;
+  line-height: 1.7;
+}
+.wsprint-end {
+  width: 100%;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  background: #eef3e2;
+  border: 1px solid #c4d0ad;
+  border-radius: 8px;
+  padding: 16px;
+}
+.wsprint-end > div {
+  min-width: 0;
+  flex: 1;
+}
+.wsprint-end h3 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+.wsprint-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+.wsprint-stats > div {
+  background: #fffdf5;
+  border-radius: 6px;
+  padding: 6px 10px;
+  text-align: center;
+}
+.wsprint-stats dt {
+  font-size: 13px;
+  color: #7f876e;
+}
+.wsprint-stats dd {
+  margin: 0;
+  font-size: 22px;
+  color: #3f5130;
+}
+
+/* Writing: the rest of the page steps back. */
+.wsprint.focus .play-heading p {
+  display: none;
+}
+.wsprint-desk {
+  padding: 16px;
+}
+.wsprint-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 22px;
+}
+.wsprint-ring {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+}
+.wsprint-ring svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.wsprint-ring circle {
+  fill: none;
+  stroke-width: 10;
+}
+.wsprint-ring .track {
+  stroke: #e9eadb;
+}
+.wsprint-ring .fill {
+  stroke: #9bb074;
+  stroke-linecap: round;
+}
+.wsprint-ring .fill.done {
+  stroke: #d7a24a;
+}
+.wsprint-ring-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.1;
+}
+.wsprint-ring-text strong {
+  font-size: 24px;
+  font-weight: 600;
+}
+.wsprint-ring-text small {
+  font-size: 13px;
+  color: #7f876e;
+}
+.wsprint-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.wsprint-time {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 34px;
+  color: #3f4a33;
+  line-height: 1.2;
+}
+.wsprint-badge {
+  font-size: 12px;
+  background: #f3e6cf;
+  color: #8a5a3c;
+  border-radius: 999px;
+  padding: 0 10px;
+  margin-top: 4px;
+}
+.wsprint-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-inline-start: auto;
+}
+.wsprint-desk .wsprint-prompt {
+  margin: 14px 0 10px;
+  font-size: 19px;
+}
+.wsprint-text {
+  display: block;
+  width: 100%;
+  min-height: 55vh;
+  resize: vertical;
+  font: inherit;
+  font-family: "Noto Naskh Arabic", "UKIJ Qolyazma", serif;
+  font-size: 21px;
+  line-height: 2.1;
+  color: #2f3a2b;
+  background: #fffef9;
+  border: 1px solid #e0e2d0;
+  border-radius: 6px;
+  padding: 18px 20px;
+}
+.wsprint-text:focus {
+  outline: 2px solid #a3b08e;
+}
+.wsprint-text[readonly] {
+  background: #f6f5ec;
+  color: #6f7a5c;
+}
+.wsprint-saved {
+  margin-top: 30px;
+}
+.wsprint-saved > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+.wsprint-saved > ul > li {
+  padding: 8px 12px;
+  min-width: 0;
+}
+.wsprint-saved-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.wsprint-saved-name {
+  flex: 1 1 220px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.wsprint-saved-name strong {
+  font-weight: 500;
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.wsprint-saved-name small {
+  font-size: 13px;
+  color: #8a9478;
+}
+.wsprint-saved-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+.wsprint-read {
+  margin-top: 8px;
+  padding: 12px 14px;
+  background: #fbf6e6;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 2;
+  font-size: 17px;
+  max-height: 340px;
+  overflow-y: auto;
+}
+.wsprint-read:focus-visible {
+  outline: 2px solid #a3b08e;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .wsprint-ring .fill {
+    transition: stroke-dashoffset 0.4s ease-out, stroke 0.3s;
+  }
+}
+@media (max-width: 520px) {
+  .wsprint-setup,
+  .wsprint-desk {
+    padding: 12px;
+  }
+  .wsprint-end {
+    flex-direction: column;
+  }
+  .wsprint-controls {
+    margin-inline-start: 0;
+    width: 100%;
+  }
+  .wsprint-controls [data-slot="button"] {
+    flex: 1 1 auto;
+  }
+  .wsprint-text {
+    font-size: 19px;
+    padding: 12px;
+  }
+}
