@@ -10,9 +10,16 @@ const Story = lazy(() => import("./StoryTrail"));
 const Letters = lazy(() => import("./LetterCorner"));
 const Garden = lazy(() => import("./WordGarden"));
 const Postcard = lazy(() => import("./PostcardMaker"));
+const Language = lazy(() => import("@/components/features/LanguageTools"));
+const Spelling = lazy(() => import("./SpellingPractice"));
+const Trace = lazy(() => import("./CalligraphyTrace"));
+const FillStory = lazy(() => import("./FillStory"));
+const Recipes = lazy(() => import("./RecipeCards"));
+const Voices = lazy(() => import("./VoiceNotes"));
 export default function CreativePlayground({
   initialPanel,
   garden,
+  readingDays,
   onReward,
   onWater,
   onRead,
@@ -20,6 +27,7 @@ export default function CreativePlayground({
 }: {
   initialPanel: PlayPanel;
   garden: GardenState;
+  readingDays: string[];
   onReward: (key: string, label: string) => void;
   onWater: () => void;
   onRead: () => void;
@@ -62,6 +70,7 @@ export default function CreativePlayground({
         {panel === "garden" && (
           <Garden
             garden={garden}
+            readingDays={readingDays}
             onWater={onWater}
             onRead={onRead}
             onCreate={() => setPanel("poetry")}
@@ -74,6 +83,12 @@ export default function CreativePlayground({
             onReward={onReward}
           />
         )}
+        {panel === "language" && <Language />}
+        {panel === "spelling" && <Spelling onReward={onReward} />}
+        {panel === "trace" && <Trace onReward={onReward} />}
+        {panel === "fillstory" && <FillStory onReward={onReward} />}
+        {panel === "recipes" && <Recipes onReward={onReward} />}
+        {panel === "voices" && <Voices onReward={onReward} />}
       </Suspense>
     </div>
   );

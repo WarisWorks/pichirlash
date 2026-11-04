@@ -1,0 +1,631 @@
+/* Styles for the language, sharing, keyboard, seasonal and habit features. */
+
+/* Seasonal desk themes */
+.experience-shell[data-desk-theme="nawruz"] .site {
+  background-color: #f4efe0;
+  background-image:
+    radial-gradient(circle at 12% 8%, #f6c9d455 0 60px, transparent 61px),
+    radial-gradient(circle at 88% 14%, #c9e2b455 0 80px, transparent 81px),
+    radial-gradient(#d18aa024 1.2px, transparent 1.2px);
+  background-size:
+    auto,
+    auto,
+    16px 16px;
+}
+.experience-shell[data-desk-theme="harvest"] .site {
+  background-color: #efe3c8;
+  background-image:
+    radial-gradient(ellipse at 70% 0, #f1c27d70, transparent 60%),
+    repeating-linear-gradient(45deg, transparent 0 22px, #b8874a10 23px 24px);
+}
+.experience-shell[data-desk-theme="winter"] .site {
+  background-color: #e7edf3;
+  background-image:
+    radial-gradient(#ffffff 1.4px, transparent 1.6px),
+    radial-gradient(#ffffffb0 1px, transparent 1.2px),
+    linear-gradient(#dce6ef, #eef2f4 60%);
+  background-size:
+    46px 46px,
+    23px 23px,
+    auto;
+  background-position:
+    0 0,
+    11px 17px,
+    0 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .experience-shell[data-desk-theme="winter"] .site {
+    animation: snow-fall 40s linear infinite;
+  }
+}
+@keyframes snow-fall {
+  to {
+    background-position:
+      0 460px,
+      11px 247px,
+      0 0;
+  }
+}
+
+/* Script switcher */
+.script-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  color: #6b765f;
+}
+.script-switch button {
+  background: #f2f2e9;
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 14px;
+}
+.script-switch.compact button {
+  padding: 5px 9px;
+  font-size: 13px;
+  min-width: 34px;
+}
+.script-switch button[aria-pressed="true"] {
+  background: #e0e8d3;
+  outline: 1px solid #a1b48c;
+}
+
+/* Reading room tools */
+.reading-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0;
+}
+.read-aloud {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.read-aloud .rate {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #6b765f;
+}
+.read-aloud .rate input {
+  width: 90px;
+}
+.focus-reading[dir="ltr"] {
+  text-align: left;
+}
+.reading-word[data-speaking] {
+  background: #fde58a;
+  border-radius: 4px;
+  box-shadow: 0 0 0 2px #fde58a;
+}
+button.reading-word {
+  font: inherit;
+  line-height: inherit;
+  color: inherit;
+  background: transparent;
+  padding: 0;
+  border-radius: 4px;
+  border-bottom: 1px dotted #a1b48c;
+  cursor: help;
+}
+button.reading-word:hover,
+button.reading-word[aria-pressed="true"] {
+  background: #e7efd9;
+}
+.word-info {
+  position: relative;
+  margin: 12px 0;
+  padding: 16px 18px;
+  background: #fffdf4;
+  border: 1px solid #d4d6c2;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px #39422c14;
+}
+.word-info-close {
+  position: absolute;
+  inset-inline-end: 8px;
+  top: 8px;
+  background: transparent;
+  padding: 4px;
+}
+.word-info-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.word-info-head strong {
+  font-size: 26px;
+}
+.word-info-head span {
+  color: #78846d;
+}
+.word-parts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0;
+}
+.word-parts .part {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px 9px;
+  background: #f2f2e9;
+  border-radius: 6px;
+}
+.word-parts .part.root {
+  background: #e0e8d3;
+}
+.word-parts small {
+  font-size: 11px;
+  color: #6b765f;
+}
+.word-meaning {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: baseline;
+  margin: 0 0 10px;
+}
+.word-meaning em {
+  font-style: normal;
+  font-size: 12px;
+  color: #fff;
+  background: #8ea27a;
+  padding: 1px 7px;
+  border-radius: 10px;
+}
+.word-meaning span {
+  color: #78846d;
+  font-size: 14px;
+}
+
+/* Poem rhyme & meter helper */
+.poem-meter {
+  margin: 14px 0;
+  padding: 12px 14px;
+  background: #fbfaf2;
+  border: 1px dashed #c7ceb6;
+  border-radius: 8px;
+}
+.poem-meter summary {
+  cursor: pointer;
+  font-size: 15px;
+  color: #5f6b52;
+}
+.poem-meter ol {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: grid;
+  gap: 6px;
+}
+.poem-meter li {
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  align-items: center;
+  gap: 8px;
+}
+.meter-count {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e0e8d3;
+  font-size: 13px;
+}
+.meter-line {
+  overflow-wrap: anywhere;
+}
+.meter-rhyme {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  color: #2f3527;
+}
+.meter-rhyme.none {
+  background: #f0f0e6;
+  color: #8b937f;
+}
+
+/* Share link */
+.share-link {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+  justify-items: start;
+}
+.share-link input {
+  width: 100%;
+  font-size: 12px;
+  padding: 7px 9px;
+  border: 1px solid #d4d6c2;
+  border-radius: 6px;
+  background: #fff;
+}
+.share-link .local-hint:empty {
+  display: none;
+}
+
+/* Shared item viewer */
+.shared-viewer {
+  max-width: 720px;
+  margin: 24px auto;
+  padding: 0 20px;
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+}
+.shared-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: #fff4c7;
+  border-radius: 20px;
+  font-size: 15px;
+}
+.shared-paper {
+  position: relative;
+  width: 100%;
+  padding: 34px 30px 30px;
+  background: #fffdf4;
+  border-radius: 6px;
+  box-shadow: 0 10px 28px #39422c24;
+  text-align: center;
+  font-family: "UKIJ Qolyazma", "Noto Naskh Arabic", serif;
+}
+.shared-paper.yellow { background: #fff6cf; }
+.shared-paper.pink { background: #fde4e6; }
+.shared-paper.green { background: #e5f0dc; }
+.shared-paper.blue { background: #e1ecf5; }
+.shared-paper.lavender { background: #ece5f4; }
+.shared-paper[dir="ltr"] ul,
+.shared-paper[dir="ltr"] ol,
+.shared-paper ul,
+.shared-paper ol {
+  text-align: start;
+  margin-inline: auto;
+  max-width: 460px;
+}
+.shared-text {
+  white-space: pre-line;
+  font-size: 24px;
+  line-height: 2;
+}
+.shared-from {
+  color: #78846d;
+}
+.shared-paper blockquote {
+  margin: 18px auto 0;
+  font-style: italic;
+  max-width: 460px;
+}
+
+/* Proverb of the day */
+.proverb-card {
+  position: relative;
+  max-width: 760px;
+  margin: 10px auto 30px;
+  padding: 30px 30px 24px;
+  background: #fffdf4;
+  border: 1px solid #e2dfcc;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px #39422c14;
+}
+.proverb-card .washi {
+  position: absolute;
+  top: -10px;
+  inset-inline-start: 40px;
+  width: 90px;
+  height: 22px;
+  background: #f6d98d99;
+  transform: rotate(-3deg);
+}
+.proverb-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.proverb-card blockquote {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 12px 0 6px;
+  font-family: "UKIJ Qolyazma", serif;
+  font-size: 30px;
+  line-height: 1.6;
+  color: #3d4632;
+}
+.proverb-card blockquote svg {
+  flex: none;
+  margin-top: 8px;
+  color: #c0a35d;
+}
+.proverb-meaning {
+  color: #6b765f;
+  margin: 0 0 14px;
+}
+.proverb-answer {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+.proverb-answer .field {
+  width: 100%;
+}
+
+/* Reading tree */
+.reading-tree {
+  margin: 22px 0;
+  padding: 16px;
+  background: #fbfaf2;
+  border: 1px solid #e2dfcc;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+}
+.tree-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  justify-content: center;
+}
+.tree-stats span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.tree-svg {
+  width: min(260px, 100%);
+  height: auto;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tree-leaves {
+    transform-origin: 100px 120px;
+    animation: tree-sway 6s ease-in-out infinite;
+  }
+}
+@keyframes tree-sway {
+  50% {
+    transform: rotate(1.5deg);
+  }
+}
+
+/* Language tools panel */
+.lang-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 18px;
+}
+.lang-card {
+  padding: 18px;
+  background: #fffdf4;
+  border: 1px solid #e2dfcc;
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+.lang-card h3 {
+  margin: 0;
+}
+.converter-outputs {
+  display: grid;
+  gap: 10px;
+}
+.converter-output {
+  padding: 10px 12px;
+  background: #f6f6ee;
+  border-radius: 6px;
+}
+.converter-output > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.converter-output p {
+  margin: 6px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 17px;
+}
+.flashcard {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  padding: 22px 14px;
+  background: #fff6cf;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 12px #39422c14;
+}
+.flashcard strong {
+  font-size: 34px;
+  font-family: "UKIJ Qolyazma", serif;
+}
+.flashcard span,
+.flashcard p span {
+  color: #78846d;
+}
+.flashcard p {
+  margin: 0;
+  display: grid;
+  gap: 4px;
+}
+.word-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 4px;
+  max-height: 240px;
+  overflow: auto;
+}
+.word-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 6px;
+  border-bottom: 1px dashed #e2dfcc;
+}
+.word-list small {
+  flex: 1;
+  color: #78846d;
+}
+.word-list button {
+  background: transparent;
+  padding: 4px;
+}
+
+/* Uyghur on-screen keyboard */
+.uyghur-keyboard {
+  position: fixed;
+  bottom: 16px;
+  inset-inline-end: 16px;
+  z-index: 80;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  gap: 8px;
+  max-width: calc(100vw - 32px);
+}
+.keyboard-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border-radius: 22px;
+  background: #fffdf4;
+  border: 1px solid #b6c0a4;
+  box-shadow: 0 6px 18px #39422c24;
+  font-size: 14px;
+}
+.keyboard-panel {
+  width: 440px;
+  max-width: 100%;
+  max-height: 70vh;
+  overflow: auto;
+  padding: 14px;
+  background: #fffdf4;
+  border: 1px solid #c7ceb6;
+  border-radius: 10px;
+  box-shadow: 0 12px 32px #39422c2e;
+  display: grid;
+  gap: 10px;
+}
+.keyboard-tabs {
+  display: flex;
+  gap: 6px;
+}
+.keyboard-tabs button {
+  flex: 1;
+  padding: 7px;
+  border-radius: 6px;
+  background: #f2f2e9;
+  font-size: 14px;
+}
+.keyboard-tabs button[aria-selected="true"] {
+  background: #e0e8d3;
+  outline: 1px solid #a1b48c;
+}
+.key-rows {
+  display: grid;
+  gap: 5px;
+}
+.key-row {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+.key-row button {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  font-size: 19px;
+  border-radius: 6px;
+  background: #fff;
+  border: 1px solid #d4d6c2;
+  box-shadow: 0 2px 0 #d4d6c2;
+}
+.key-row button:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+.key-row button.wide {
+  flex: 4 1 0;
+  max-width: none;
+}
+.latin-box {
+  display: grid;
+  gap: 8px;
+}
+.latin-preview {
+  margin: 0;
+  min-height: 38px;
+  padding: 8px 10px;
+  background: #f6f6ee;
+  border-radius: 6px;
+  font-size: 20px;
+}
+.insert-converted {
+  justify-self: start;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background: #e0e8d3;
+}
+.physical-toggle {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 14px;
+}
+.keyboard-panel .local-hint:empty {
+  display: none;
+}
+
+/* Install as app */
+.install-app {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border-radius: 7px;
+  background: #e0e8d3;
+  font-size: 14px;
+}
+
+@media (max-width: 650px) {
+  .proverb-card {
+    margin: 10px 16px 24px;
+    padding: 24px 18px 18px;
+  }
+  .proverb-card blockquote {
+    font-size: 24px;
+  }
+  .uyghur-keyboard {
+    bottom: 10px;
+    inset-inline-end: 10px;
+  }
+  .keyboard-toggle span {
+    display: none;
+  }
+  .key-row button {
+    height: 38px;
+    font-size: 17px;
+  }
+}

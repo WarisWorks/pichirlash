@@ -14,6 +14,8 @@ import { colors, moveWord, uid, validPoems } from "./model";
 import type { Poem } from "./model";
 import { useLocal } from "./useLocal";
 import { StorageNotice } from "./Experience";
+import PoemMeter from "@/components/features/PoemMeter";
+import ShareLinkButton from "@/components/features/ShareLinkButton";
 export type CardContent = {
   title: string;
   text: string;
@@ -334,6 +336,7 @@ export default function PoetryPlayground({
               <Trash2 size={17} />
             </Button>
           </div>
+          <PoemMeter text={poem.words.join(" ").replace(/ ?\n ?/g, "\n")} />
           <div className="editor-actions">
             <Button onClick={save}>
               <Save size={17} /> شېئىرنى ساقلاش
@@ -353,6 +356,16 @@ export default function PoetryPlayground({
               <ImageDown size={17} /> پوچتا كارتىسىغا ئايلاندۇرۇش
             </Button>
           </div>
+          <ShareLinkButton
+            disabled={!poem.words.length}
+            item={() => ({
+              kind: "poem",
+              title: poem.title,
+              text: poem.words.join(" ").replace(/ ?\n ?/g, "\n"),
+              color: poem.color,
+              art: poem.art,
+            })}
+          />
           <p role="status" className="local-hint">
             {status}
           </p>
